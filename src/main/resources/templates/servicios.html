@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Gestión de Servicios - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#19f097",
+              "background-light": "#f6f8f7",
+              "background-dark": "#10221b",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #121212;
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="font-display">
+    <div
+      class="relative flex min-h-screen w-full flex-col bg-[#121212] group/design-root overflow-x-hidden"
+    >
+      <div class="flex h-full grow">
+        <!-- SideNavBar -->
+        <aside
+          class="flex h-auto min-h-screen flex-col justify-between bg-[#121212] border-r border-[#333333] p-4 w-64"
+        >
+          <div class="flex flex-col gap-4">
+            <div class="flex gap-3 items-center">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                data-alt="Oasis Digital company logo"
+                style="
+                  background-image: url('https://i.pravatar.cc/100?img=70');
+                "
+              ></div>
+              <div class="flex flex-col">
+                <h1 class="text-white text-base font-bold leading-normal">
+                  Oasis Digital
+                </h1>
+                <p class="text-[#888888] text-sm font-normal leading-normal">
+                  Hotel Management
+                </p>
+              </div>
+            </div>
+            <nav class="flex flex-col gap-2 mt-4">
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors"
+                th:href="@{/dashboard}"
+              >
+                <span class="material-symbols-outlined">dashboard</span>
+                <p class="text-sm font-medium leading-normal">Dashboard</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors"
+                th:href="@{/reservas}"
+              >
+                <span class="material-symbols-outlined">calendar_month</span>
+                <p class="text-sm font-medium leading-normal">Reservas</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors"
+                th:href="@{/habitaciones}"
+              >
+                <span class="material-symbols-outlined">bed</span>
+                <p class="text-sm font-medium leading-normal">Habitaciones</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#046307]/20 text-[#FFD700]"
+                th:href="@{/servicios}"
+              >
+                <span
+                  class="material-symbols-outlined"
+                  style="font-variation-settings: 'FILL' 1"
+                  >spa</span
+                >
+                <p class="text-sm font-bold leading-normal">Servicios</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors"
+                th:href="@{/clientes}"
+              >
+                <span class="material-symbols-outlined">group</span>
+                <p class="text-sm font-medium leading-normal">Clientes</p>
+              </a>
+            </nav>
+          </div>
+          <div class="flex flex-col gap-1">
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors"
+              th:href="@{/configuracion}"
+            >
+              <span class="material-symbols-outlined">settings</span>
+              <p class="text-sm font-medium leading-normal">Ajustes</p>
+            </a>
+            <form th:action="@{/logout}" method="post">
+              <button
+                type="submit"
+                class="flex items-center gap-3 px-3 py-2 text-[#888888] hover:text-white hover:bg-[#333333] rounded-lg transition-colors w-full text-left"
+              >
+                <span class="material-symbols-outlined">logout</span>
+                <p class="text-sm font-medium leading-normal">Salir</p>
+              </button>
+            </form>
+          </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+          <div class="flex flex-col gap-8 max-w-7xl mx-auto">
+            <!-- PageHeading -->
+            <header class="flex flex-wrap justify-between items-center gap-4">
+              <h1
+                class="text-white text-4xl font-black leading-tight tracking-tight"
+              >
+                Gestión de Servicios
+              </h1>
+              <a
+                th:href="@{/servicios/nuevo}"
+                class="flex items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-6 bg-[#FFD700] text-[#121212] text-sm font-bold leading-normal tracking-wide hover:bg-yellow-400 transition-colors"
+              >
+                <span class="material-symbols-outlined">add</span>
+                <span class="truncate">Añadir Nuevo Servicio</span>
+              </a>
+            </header>
+            <!-- Table -->
+            <div
+              class="overflow-hidden rounded-lg border border-[#333333] bg-[#121212]"
+            >
+              <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                  <thead class="bg-[#046307]">
+                    <tr>
+                      <th
+                        class="px-6 py-4 text-white text-sm font-bold uppercase tracking-wider"
+                        scope="col"
+                      >
+                        Servicio
+                      </th>
+                      <th
+                        class="px-6 py-4 text-white text-sm font-bold uppercase tracking-wider"
+                        scope="col"
+                      >
+                        Descripción
+                      </th>
+                      <th
+                        class="px-6 py-4 text-white text-sm font-bold uppercase tracking-wider text-right"
+                        scope="col"
+                      >
+                        Precio
+                      </th>
+                      <th
+                        class="px-6 py-4 text-white text-sm font-bold uppercase tracking-wider text-center"
+                        scope="col"
+                      >
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[#333333]">
+                    <tr
+                      th:each="servicio : ${servicios}"
+                      class="hover:bg-[#333333]/50 transition-colors"
+                    >
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-white text-sm font-medium"
+                        th:text="${servicio.nombre}"
+                      >
+                        Masaje Relajante
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-[#888888] text-sm"
+                        th:text="${servicio.descripcion}"
+                      >
+                        Sesión de spa de 60 minutos con aceites esenciales.
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-[#888888] text-sm text-right"
+                        th:text="'$' + ${servicio.precio}"
+                      >
+                        $120.00
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                      >
+                        <div class="flex items-center justify-center gap-4">
+                          <a
+                            th:href="@{/servicios/editar/{id}(id=${servicio.id})}"
+                            aria-label="Editar servicio"
+                            class="text-[#888888] hover:text-[#FFD700] transition-colors"
+                          >
+                            <span class="material-symbols-outlined">edit</span>
+                          </a>
+                          <button
+                            onclick="confirmarEliminacion(this)"
+                            th:data-id="${servicio.id}"
+                            aria-label="Eliminar servicio"
+                            class="text-[#888888] hover:text-red-500 transition-colors"
+                          >
+                            <span class="material-symbols-outlined"
+                              >delete</span
+                            >
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function confirmarEliminacion(button) {
+        const servicioId = button.getAttribute("data-id");
+        if (
+          confirm(
+            "¿Estás seguro de que deseas eliminar este servicio? Esta acción no se puede deshacer."
+          )
+        ) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = `/servicios/eliminar/${servicioId}`;
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }
+    </script>
+  </body>
+</html>

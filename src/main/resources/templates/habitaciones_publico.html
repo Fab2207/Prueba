@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Búsqueda y Reserva de Habitaciones - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&amp;family=Lato:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B77",
+              accent: "#D4AF37",
+              "background-light": "#f5f5f5",
+              "background-dark": "#121212",
+            },
+            fontFamily: {
+              display: ["Cormorant Garamond", "serif"],
+              body: ["Lato", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-body text-[#F5F5F5]"
+  >
+    <div class="relative flex w-full flex-col">
+      <!-- TopNavBar -->
+      <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-10 py-4 bg-background-dark/80 backdrop-blur-sm"
+      >
+        <div class="flex items-center gap-4">
+          <div class="size-6 text-primary">
+            <svg
+              fill="currentColor"
+              viewbox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"
+              ></path>
+              <path
+                d="M19.07 4.93C17.6 3.46 15.65 2.5 13.5 2.18v2.05c1.61.32 3.03 1.05 4.24 2.26l1.41-1.41zM4.93 19.07c1.47 1.47 3.42 2.43 5.57 2.75v-2.05c-1.61-.32-3.03-1.05-4.24-2.26L4.93 19.07z"
+              ></path>
+            </svg>
+          </div>
+          <h2
+            class="text-2xl font-bold leading-tight tracking-tight font-display text-white"
+          >
+            Oasis Digital
+          </h2>
+        </div>
+        <div class="flex flex-1 items-center justify-end gap-8">
+          <nav class="flex items-center gap-9">
+            <a
+              class="text-white text-base font-medium leading-normal hover:text-accent transition-colors"
+              th:href="@{/}"
+              >Inicio</a
+            >
+            <a
+              class="text-white text-base font-medium leading-normal hover:text-accent transition-colors"
+              href="#"
+              >Galería</a
+            >
+            <a
+              class="text-white text-base font-medium leading-normal hover:text-accent transition-colors"
+              href="#"
+              >Contacto</a
+            >
+          </nav>
+          <a
+            th:href="@{/login}"
+            class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-accent text-background-dark text-sm font-bold leading-normal tracking-wide hover:opacity-90 transition-opacity"
+          >
+            <span class="truncate">Iniciar Sesión / Registro</span>
+          </a>
+        </div>
+      </header>
+      <main class="flex flex-col items-center px-10 py-16">
+        <div class="w-full max-w-6xl">
+          <!-- Hero Section / Search Section -->
+          <section class="mb-20">
+            <div
+              class="flex min-h-[400px] flex-col items-center justify-center gap-8 rounded-xl bg-cover bg-center bg-no-repeat p-8"
+              data-alt="Luxurious, dimly lit hotel lobby with emerald and gold accents."
+              style="
+                background-image: linear-gradient(
+                    rgba(18, 18, 18, 0.7) 0%,
+                    rgba(18, 18, 18, 0.9) 100%
+                  ),
+                  url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6IIv79HESniclcsGf9MJdwcgeX4Nqa0MAAPxBIfyBVDvrwZaFarSR1swdYQvcASL0I_NGpVb8E-DjiQRulMHc9DMnQar0ExAVvUcu8CAFVOuOTwcsq5KrYpye3qFoa1IvfrwL4n8FF8wQIqbKeIKgZVU4CU6zbi2XG3a_lII8BKnmD9D0ylajNIXP3vxTLyIyreFtQ3ql9H9K8j13YTeFnmxkIBU2S7w18zvTBpDbv7uh7XtuZBiFbeyFeEf08u30JhaBgGDs1Gk');
+              "
+            >
+              <div class="flex flex-col gap-2 text-center">
+                <h1
+                  class="font-display text-6xl font-bold leading-tight tracking-tight text-white"
+                >
+                  Encuentre su Estancia Perfecta en Oasis Digital
+                </h1>
+              </div>
+              <form
+                th:action="@{/habitaciones/publico}"
+                method="get"
+                class="w-full max-w-4xl rounded-xl border border-white/10 bg-background-dark/50 p-6 backdrop-blur-md"
+              >
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+                  <label class="flex flex-col">
+                    <p
+                      class="pb-2 text-sm font-bold uppercase tracking-wider text-accent"
+                    >
+                      Check-in
+                    </p>
+                    <div class="relative">
+                      <span
+                        class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/50"
+                        >calendar_month</span
+                      >
+                      <input
+                        name="checkIn"
+                        class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-white/20 bg-[#1F1F1F] p-[15px] pl-10 font-body text-base font-normal leading-normal text-white placeholder:text-white/50 focus:border-accent focus:outline-0 focus:ring-1 focus:ring-accent"
+                        placeholder="Seleccione fecha"
+                        type="date"
+                      />
+                    </div>
+                  </label>
+                  <label class="flex flex-col">
+                    <p
+                      class="pb-2 text-sm font-bold uppercase tracking-wider text-accent"
+                    >
+                      Check-out
+                    </p>
+                    <div class="relative">
+                      <span
+                        class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/50"
+                        >calendar_month</span
+                      >
+                      <input
+                        name="checkOut"
+                        class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-white/20 bg-[#1F1F1F] p-[15px] pl-10 font-body text-base font-normal leading-normal text-white placeholder:text-white/50 focus:border-accent focus:outline-0 focus:ring-1 focus:ring-accent"
+                        placeholder="Seleccione fecha"
+                        type="date"
+                      />
+                    </div>
+                  </label>
+                  <div class="grid grid-cols-2 gap-4">
+                    <label class="flex flex-col">
+                      <p
+                        class="pb-2 text-sm font-bold uppercase tracking-wider text-accent"
+                      >
+                        Adultos
+                      </p>
+                      <input
+                        name="adultos"
+                        class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-white/20 bg-[#1F1F1F] p-[15px] text-center font-body text-base font-normal leading-normal text-white placeholder:text-white/50 focus:border-accent focus:outline-0 focus:ring-1 focus:ring-accent"
+                        placeholder="2"
+                        value="2"
+                        type="number"
+                        min="1"
+                      />
+                    </label>
+                    <label class="flex flex-col">
+                      <p
+                        class="pb-2 text-sm font-bold uppercase tracking-wider text-accent"
+                      >
+                        Niños
+                      </p>
+                      <input
+                        name="ninos"
+                        class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-white/20 bg-[#1F1F1F] p-[15px] text-center font-body text-base font-normal leading-normal text-white placeholder:text-white/50 focus:border-accent focus:outline-0 focus:ring-1 focus:ring-accent"
+                        placeholder="0"
+                        value="0"
+                        type="number"
+                        min="0"
+                      />
+                    </label>
+                  </div>
+                  <div class="flex items-end">
+                    <button
+                      type="submit"
+                      class="flex h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-accent text-background-dark text-base font-bold leading-normal tracking-wide shadow-lg shadow-accent/20 hover:opacity-90 transition-opacity"
+                    >
+                      <span class="truncate">Buscar Disponibilidad</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+          <!-- Results Gallery Section -->
+          <section>
+            <div class="mb-8 text-center">
+              <h2 class="font-display text-4xl font-bold text-white">
+                Habitaciones Disponibles para sus Fechas
+              </h2>
+            </div>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <!-- Room Card Loop -->
+              <div
+                th:each="habitacion : ${habitaciones}"
+                class="flex flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1A1A1A] transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50"
+              >
+                <img
+                  th:if="${habitacion.imagenUrl != null}"
+                  th:src="${habitacion.imagenUrl}"
+                  class="h-60 w-full object-cover"
+                  th:alt="${habitacion.tipo}"
+                />
+                <img
+                  th:unless="${habitacion.imagenUrl != null}"
+                  class="h-60 w-full object-cover"
+                  data-alt="Elegant hotel room"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX8X2rbVHnw0ezLCRxN21bXosZhK14YoCvdcWJsdRhLgBomsQMffvuSdF5Ka4bZY-WVj9S2xFXdzsI3pSxxH5hkatd23YkAKP1Ajsi29q5yyuyQFggBLoyUuGEvv3nJfqBja60eFSrb0oruymsKBEIYKC8zCp4g1Iwpmpv3xamcOZGD8p2q-tIHcR9K2KOFE8NzAVXI7boFXQkCMCx2FXEOhm97QX7ze5-SWAJFJHMF0tcHrXMmSYPB1IJ2PmdK0KIZxcBKbw8680"
+                />
+                <div class="flex flex-1 flex-col p-6">
+                  <h3
+                    class="font-display text-2xl font-bold text-white"
+                    th:text="${habitacion.tipo}"
+                  >
+                    Suite Esmeralda
+                  </h3>
+                  <div
+                    class="my-4 flex items-center gap-6 text-sm text-white/70"
+                  >
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-lg"
+                        >group</span
+                      >
+                      <span th:text="${habitacion.capacidad + ' Huéspedes'}"
+                        >2-4 Huéspedes</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-lg">bed</span>
+                      <span th:text="${habitacion.descripcion ?: 'King Size'}"
+                        >King Size</span
+                      >
+                    </div>
+                  </div>
+                  <div class="mt-auto flex items-end justify-between">
+                    <div>
+                      <p class="text-sm text-white/70">desde</p>
+                      <p class="text-2xl font-bold text-accent">
+                        <span th:text="'$' + ${habitacion.precioNoche}"
+                          >$350</span
+                        >
+                        <span class="text-base font-normal text-white/70"
+                          >/noche</span
+                        >
+                      </p>
+                    </div>
+                    <a
+                      th:href="@{/login}"
+                      class="flex h-11 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-5 text-sm font-bold leading-normal text-white hover:opacity-90 transition-opacity"
+                    >
+                      <span class="truncate">Ver Detalles y Reservar</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Empty State -->
+              <div
+                th:if="${#lists.isEmpty(habitaciones)}"
+                class="col-span-3 text-center py-12"
+              >
+                <p class="text-white/60 text-lg">
+                  No hay habitaciones disponibles para las fechas seleccionadas.
+                  Por favor, intente con otras fechas.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer
+        class="mt-20 border-t border-white/10 bg-background-dark px-10 py-8"
+      >
+        <div
+          class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left"
+        >
+          <div class="flex flex-col">
+            <h3 class="font-display text-xl font-bold text-white">
+              Oasis Digital
+            </h3>
+            <p class="text-sm text-white/60">Su santuario de lujo y confort.</p>
+          </div>
+          <div class="flex gap-4">
+            <a
+              class="text-white/60 hover:text-accent transition-colors"
+              href="#"
+              >Facebook</a
+            >
+            <a
+              class="text-white/60 hover:text-accent transition-colors"
+              href="#"
+              >Instagram</a
+            >
+            <a
+              class="text-white/60 hover:text-accent transition-colors"
+              href="#"
+              >Twitter</a
+            >
+          </div>
+          <p class="text-sm text-white/60">
+            © 2024 Oasis Digital. Todos los derechos reservados.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

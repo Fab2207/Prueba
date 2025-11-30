@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reporte - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media print {
+        .no-print {
+          display: none;
+        }
+        body {
+          background: white;
+          color: black;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 p-8 text-gray-800">
+    <div
+      class="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg print:shadow-none"
+    >
+      <!-- Header -->
+      <div class="flex justify-between items-center border-b pb-6 mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">REPORTE DE GESTIÓN</h1>
+          <p class="text-sm text-gray-500">Oasis Digital Hotel</p>
+          <p
+            class="text-sm text-gray-500"
+            th:text="'Generado el: ' + ${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"
+          >
+            Generado el: 01/01/2023
+          </p>
+        </div>
+        <div class="text-right">
+          <p class="font-bold">Periodo:</p>
+          <p
+            th:text="${#temporals.format(fechaInicio, 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(fechaFin, 'dd/MM/yyyy')}"
+          >
+            01/01/2023 - 31/01/2023
+          </p>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid-cols-3 gap-6 mb-8">
+        <div class="p-4 bg-gray-50 rounded border border-gray-200">
+          <p class="text-sm text-gray-500">Ingresos Totales</p>
+          <p
+            class="text-2xl font-bold"
+            th:text="'S/. ' + ${#numbers.formatDecimal(ingresosTotales, 1, 2)}"
+          >
+            S/. 0.00
+          </p>
+        </div>
+        <div class="p-4 bg-gray-50 rounded border border-gray-200">
+          <p class="text-sm text-gray-500">Tasa de Ocupación</p>
+          <p class="text-2xl font-bold" th:text="${tasaOcupacion} + '%'">0%</p>
+        </div>
+        <div class="p-4 bg-gray-50 rounded border border-gray-200">
+          <p class="text-sm text-gray-500">ADR (Tarifa Promedio)</p>
+          <p class="text-2xl font-bold" th:text="'S/. ' + ${adr}">S/. 0.00</p>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <h2 class="text-xl font-bold mb-4">Detalle de Reservas</h2>
+      <table class="w-full text-sm text-left mb-8">
+        <thead class="bg-gray-100 uppercase">
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Cliente</th>
+            <th class="px-4 py-2">Habitación</th>
+            <th class="px-4 py-2">Entrada</th>
+            <th class="px-4 py-2">Salida</th>
+            <th class="px-4 py-2">Estado</th>
+            <th class="px-4 py-2 text-right">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="reserva : ${reservas}" class="border-b">
+            <td class="px-4 py-2" th:text="${reserva.id}">1</td>
+            <td
+              class="px-4 py-2"
+              th:text="${reserva.cliente.nombres + ' ' + reserva.cliente.apellidos}"
+            >
+              Cliente
+            </td>
+            <td class="px-4 py-2" th:text="${reserva.habitacion.numero}">
+              101
+            </td>
+            <td
+              class="px-4 py-2"
+              th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy')}"
+            >
+              01/01/2023
+            </td>
+            <td
+              class="px-4 py-2"
+              th:text="${#temporals.format(reserva.fechaFin, 'dd/MM/yyyy')}"
+            >
+              05/01/2023
+            </td>
+            <td class="px-4 py-2" th:text="${reserva.estadoReserva}">
+              FINALIZADA
+            </td>
+            <td
+              class="px-4 py-2 text-right"
+              th:text="'S/. ' + ${#numbers.formatDecimal(reserva.totalPagar, 1, 2)}"
+            >
+              S/. 100.00
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(reservas)}">
+            <td colspan="7" class="px-4 py-4 text-center text-gray-500">
+              No hay reservas en este periodo.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Footer -->
+      <div class="mt-12 text-center text-xs text-gray-500 border-t pt-4">
+        <p>Reporte generado automáticamente por el sistema Oasis Digital.</p>
+      </div>
+
+      <!-- Print Button -->
+      <div class="mt-8 text-center no-print">
+        <button
+          onclick="window.print()"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Imprimir / Guardar como PDF
+        </button>
+        <a
+          href="javascript:history.back()"
+          class="ml-4 text-blue-600 hover:underline"
+          >Volver</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Proceso de Pago de Reserva - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0cc057",
+              "background-light": "#f5f8f7",
+              "background-dark": "#102218",
+              accent: "#D4AF37",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
+    <script
+      defer=""
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark font-display">
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col"
+      x-data="{ paymentMethod: 'card' }"
+    >
+      <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 md:px-10 lg:px-20 py-4"
+      >
+        <div class="flex items-center gap-4 text-white">
+          <div class="size-6 text-primary">
+            <svg
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <h2
+            class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+          >
+            Oasis Digital
+          </h2>
+        </div>
+        <div class="hidden md:flex flex-1 justify-end items-center gap-8">
+          <div class="flex items-center gap-9">
+            <a
+              class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors"
+              th:href="@{/habitaciones/publico}"
+              >Habitaciones</a
+            >
+            <a
+              class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors"
+              th:href="@{/servicios}"
+              >Servicios</a
+            >
+            <a
+              class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors"
+              href="#"
+              >Galería</a
+            >
+            <a
+              class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors"
+              href="#"
+              >Contacto</a
+            >
+          </div>
+          <a
+            th:href="@{/cliente/area}"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity"
+          >
+            <span class="truncate">Mi Cuenta</span>
+          </a>
+          <div
+            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+            data-alt="User avatar placeholder"
+            style="
+              background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4CydNCE-Z6-ZL372UxZfI224D_hlN1lOb7MwRK3380pHrt5OKXMfq7c1fIb5Nc8Op0WzfpFouELSGkKvj-1CMRYiV7AwlVJdDBs68pkU3ffvrxr-OjS7kyK-tfhDzrL0m8H-hzCTvQTercmuEwFJS9Exe_6uy8tr_IpnhhqLLomh51TYZjUyAXf3Di0s6WQN4YRQ6cw1jJnEPzsgzgzpUU02z0aqE_V4S0vCo_q7iAeJBUxCgMmzS-DwVyG_isTyDBy0kEfBuzTE');
+            "
+          ></div>
+        </div>
+      </header>
+      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-12">
+        <div class="max-w-4xl mx-auto flex flex-col gap-8">
+          <div class="flex flex-wrap gap-2 px-4">
+            <a
+              class="text-primary/70 text-sm font-medium leading-normal hover:text-primary transition-colors"
+              href="#"
+              >Selección de Habitación</a
+            >
+            <span class="text-white/30 text-sm font-medium leading-normal"
+              >/</span
+            >
+            <span class="text-white text-sm font-medium leading-normal"
+              >Pago</span
+            >
+            <span class="text-white/30 text-sm font-medium leading-normal"
+              >/</span
+            >
+            <a class="text-white/30 text-sm font-medium leading-normal" href="#"
+              >Confirmación</a
+            >
+          </div>
+          <div class="flex flex-wrap justify-between gap-3 px-4">
+            <div class="flex flex-col gap-2">
+              <h1
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+              >
+                Proceso de Pago de Reserva
+              </h1>
+              <p class="text-white/60 text-base font-normal leading-normal">
+                Complete su reserva de forma segura en unos pocos pasos.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <form
+              th:action="@{/reservas/{id}/pago(id=${reserva.id})}"
+              method="post"
+            >
+              <input type="hidden" name="returnTo" th:value="${returnTo}" />
+              <div class="lg:col-span-2 flex flex-col gap-8">
+                <div
+                  class="bg-[#182c20]/50 border border-white/10 rounded-xl p-6 flex flex-col gap-6"
+                >
+                  <h2
+                    class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]"
+                  >
+                    Método de Pago
+                  </h2>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button
+                      type="button"
+                      :class="{ 'border-primary bg-primary/20': paymentMethod === 'card', 'border-white/10 hover:border-primary/50': paymentMethod !== 'card' }"
+                      @click="paymentMethod = 'card'"
+                      class="flex items-center gap-3 p-4 rounded-lg border-2 transition-all"
+                    >
+                      <div class="flex items-center gap-2">
+                        <img
+                          alt="Visa"
+                          class="h-6"
+                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/200px-Visa_2021.svg.png"
+                        />
+                        <img
+                          alt="Mastercard"
+                          class="h-6"
+                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png"
+                        />
+                      </div>
+                      <span class="text-white font-semibold">Tarjeta</span>
+                    </button>
+                    <button
+                      type="button"
+                      :class="{ 'border-primary bg-primary/20': paymentMethod === 'wallet', 'border-white/10 hover:border-primary/50': paymentMethod !== 'wallet' }"
+                      @click="paymentMethod = 'wallet'"
+                      class="flex items-center gap-3 p-4 rounded-lg border-2 transition-all"
+                    >
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="material-symbols-outlined text-white text-2xl"
+                          >account_balance_wallet</span
+                        >
+                      </div>
+                      <span class="text-white font-semibold"
+                        >Billetera Digital</span
+                      >
+                    </button>
+                  </div>
+                  <input
+                    type="hidden"
+                    name="metodo"
+                    x-model="paymentMethod === 'card' ? 'TARJETA' : 'WALLET'"
+                  />
+                  <div
+                    class="flex flex-col gap-4 mt-2"
+                    x-show="paymentMethod === 'card'"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:enter-start="opacity-0 transform -translate-y-4"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-end="opacity-0 transform -translate-y-4"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                  >
+                    <div class="flex flex-col gap-2">
+                      <label
+                        class="text-sm font-medium text-white/80"
+                        for="card-holder"
+                        >Nombre en la tarjeta</label
+                      >
+                      <input
+                        class="w-full bg-[#1b2720]/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:ring-primary focus:border-primary p-3"
+                        id="card-holder"
+                        name="titularTarjeta"
+                        placeholder="John Doe"
+                        type="text"
+                      />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                      <label
+                        class="text-sm font-medium text-white/80"
+                        for="card-number"
+                        >Número de tarjeta</label
+                      >
+                      <div class="relative">
+                        <input
+                          class="w-full bg-[#1b2720]/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:ring-primary focus:border-primary pl-10 p-3"
+                          id="card-number"
+                          name="numeroTarjeta"
+                          pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
+                          placeholder="**** **** **** 1234"
+                          type="text"
+                        />
+                        <span
+                          class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
+                          >credit_card</span
+                        >
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div class="flex flex-col gap-2">
+                        <label
+                          class="text-sm font-medium text-white/80"
+                          for="expiry-date"
+                          >Fecha de Vencimiento</label
+                        >
+                        <input
+                          class="w-full bg-[#1b2720]/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:ring-primary focus:border-primary p-3"
+                          id="expiry-date"
+                          name="fechaExp"
+                          pattern="(0[1-9]|1[0-2])\/\d{2}"
+                          placeholder="MM/AA"
+                          type="text"
+                        />
+                      </div>
+                      <div class="flex flex-col gap-2">
+                        <label
+                          class="text-sm font-medium text-white/80"
+                          for="cvv"
+                          >CVV</label
+                        >
+                        <div class="relative">
+                          <input
+                            class="w-full bg-[#1b2720]/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:ring-primary focus:border-primary p-3"
+                            id="cvv"
+                            name="cvv"
+                            pattern="\d{3,4}"
+                            placeholder="123"
+                            type="text"
+                          />
+                          <span
+                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-white/40"
+                            >lock</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col gap-4 mt-2"
+                    x-cloak=""
+                    x-show="paymentMethod === 'wallet'"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:enter-start="opacity-0 transform -translate-y-4"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-end="opacity-0 transform -translate-y-4"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                  >
+                    <div class="flex flex-col gap-2">
+                      <label
+                        class="text-sm font-medium text-white/80"
+                        for="phone-number"
+                        >Número de Celular (Yape/Plin)</label
+                      >
+                      <div class="relative">
+                        <input
+                          class="w-full bg-[#1b2720]/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:ring-primary focus:border-primary pl-10 p-3"
+                          id="phone-number"
+                          name="telefonoWallet"
+                          maxlength="9"
+                          pattern="\d{9}"
+                          placeholder="987 654 321"
+                          type="tel"
+                        />
+                        <span
+                          class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
+                          >phone_iphone</span
+                        >
+                      </div>
+                    </div>
+                    <p class="text-xs text-white/60">
+                      Recibirá una solicitud de pago en su aplicación Yape o
+                      Plin para completar la transacción.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="bg-[#182c20]/50 border border-white/10 rounded-xl p-6 flex flex-col gap-6"
+                >
+                  <div class="flex items-start gap-4">
+                    <input
+                      class="mt-1 h-5 w-5 rounded border-white/20 bg-[#1b2720]/50 text-primary focus:ring-primary"
+                      id="terms"
+                      type="checkbox"
+                    />
+                    <label class="text-sm text-white/80" for="terms">
+                      He leído y acepto los
+                      <a class="font-bold text-primary hover:underline" href="#"
+                        >Términos y Condiciones</a
+                      >
+                      y la
+                      <a class="font-bold text-primary hover:underline" href="#"
+                        >Política de Cancelación</a
+                      >.
+                    </label>
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary h-12 px-6 text-background-dark text-base font-bold hover:opacity-90 transition-opacity"
+                  >
+                    <span class="material-symbols-outlined">lock</span>
+                    <span>Pagar y Confirmar Reserva</span>
+                  </button>
+                  <div
+                    class="flex items-center justify-center gap-4 text-xs text-white/60"
+                  >
+                    <span class="material-symbols-outlined text-accent"
+                      >verified_user</span
+                    >
+                    <span>Transacción segura y encriptada.</span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="lg:col-span-1">
+              <div
+                class="sticky top-10 flex flex-col gap-4 bg-[#182c20]/50 border border-white/10 rounded-xl p-6"
+              >
+                <h2
+                  class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2"
+                >
+                  Resumen de su Reserva
+                </h2>
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-24 h-20 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0"
+                    data-alt="Emerald Suite with ocean view"
+                    style="
+                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvn_OYhe_Md4wEmm_LdgyEuGRudw7K4tox3vQbb6D8s0a-K8EaSbfO8lZi07j1R_Gneu0BpGEPnHHh7FMsr6zuCAtoAm1FqLYwc2F1ibAhc2NeKgT6uavWN9EAbPKrmURTrudUKRZslksToC7pO1752_6H_ZLAI-kE-F6Xbbtl0UVCBdXjS7dPfEXz6otbW-q0ESm2bLXFtNDBWIpMENmPIdFkhUEN7qJk6YaoZps2D-FQZa4EnRQq0h7WFBqlHg-0BX3tj0HJSjs');
+                    "
+                  ></div>
+                  <div class="flex flex-col gap-1">
+                    <p
+                      class="text-white text-base font-bold leading-tight"
+                      th:text="${reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}"
+                    >
+                      Suite Esmeralda Vista al Mar
+                    </p>
+                    <p
+                      class="text-white/60 text-sm font-normal leading-normal"
+                      th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM, yyyy') + ' - ' + #temporals.format(reserva.fechaFin, 'dd MMM, yyyy')}"
+                    >
+                      25 Dic, 2024 - 30 Dic, 2024
+                    </p>
+                  </div>
+                </div>
+                <hr class="border-white/10 my-2" />
+                <div class="flex flex-col gap-3 text-sm">
+                  <div class="flex justify-between items-center">
+                    <span
+                      class="text-white/80"
+                      th:text="'Estancia (' + ${reserva.diasEstadia} + ' noches)'"
+                      >Estancia (5 noches)</span
+                    >
+                    <span
+                      class="text-white font-medium"
+                      th:text="'S/. ' + ${montoBase}"
+                      >$2,500.00</span
+                    >
+                  </div>
+                  <div
+                    th:each="servicio : ${reserva.servicios}"
+                    class="flex justify-between items-center"
+                  >
+                    <span class="text-white/80" th:text="${servicio.nombre}"
+                      >Servicio</span
+                    >
+                    <span
+                      class="text-white font-medium"
+                      th:text="'S/. ' + ${servicio.precio}"
+                      >$0.00</span
+                    >
+                  </div>
+                </div>
+                <hr class="border-white/10 my-2" />
+                <div class="flex justify-between items-center">
+                  <span class="text-white text-lg font-bold">Total</span>
+                  <span
+                    class="text-accent text-2xl font-black"
+                    th:text="'S/. ' + ${montoTotal}"
+                    >$3,370.00</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

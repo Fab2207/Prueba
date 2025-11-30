@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Calendario de Disponibilidad - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .material-symbols-outlined.fill {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13ec5b",
+              "background-light": "#f6f8f6",
+              "background-dark": "#111813",
+              emerald: {
+                DEFAULT: "#073823",
+                light: "#28392e",
+                vibrant: "#10b981",
+              },
+              gold: {
+                DEFAULT: "#f59e0b",
+                light: "#fcd34d",
+              },
+              "blue-status": "#3b82f6",
+              "red-status": "#ef4444",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-[#111813] font-display text-white">
+    <div class="flex h-screen w-full">
+      <!-- SideNavBar -->
+      <aside class="flex h-full w-64 flex-col justify-between bg-emerald p-4">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              data-alt="Oasis Digital company logo"
+              style="background-image: url('https://i.pravatar.cc/100?img=70')"
+            ></div>
+            <div class="flex flex-col">
+              <h1 class="text-white text-base font-medium leading-normal">
+                Oasis Digital
+              </h1>
+              <p class="text-white/70 text-sm font-normal leading-normal">
+                Sistema Hotelero
+              </p>
+            </div>
+          </div>
+          <nav class="flex flex-col gap-2 mt-4">
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+              th:href="@{/dashboard}"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              <p class="text-sm font-medium leading-normal">Panel Principal</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+              th:href="@{/reservas}"
+            >
+              <span class="material-symbols-outlined">bed</span>
+              <p class="text-sm font-medium leading-normal">Reservas</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-vibrant text-emerald font-bold"
+              th:href="@{/calendario}"
+            >
+              <span class="material-symbols-outlined fill">calendar_month</span>
+              <p class="text-sm font-medium leading-normal">Calendario</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+              th:href="@{/clientes}"
+            >
+              <span class="material-symbols-outlined">group</span>
+              <p class="text-sm font-medium leading-normal">Huéspedes</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">receipt_long</span>
+              <p class="text-sm font-medium leading-normal">Facturación</p>
+            </a>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-1">
+          <a
+            class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+            th:href="@{/configuracion}"
+          >
+            <span class="material-symbols-outlined">settings</span>
+            <p class="text-sm font-medium leading-normal">Ajustes</p>
+          </a>
+          <a
+            class="flex items-center gap-3 px-3 py-2 text-white/80 hover:bg-emerald-light hover:text-white rounded-lg transition-colors"
+            href="#"
+          >
+            <span class="material-symbols-outlined">help</span>
+            <p class="text-sm font-medium leading-normal">Ayuda</p>
+          </a>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="flex flex-1 flex-col overflow-y-auto">
+        <div class="flex flex-col p-6 gap-6">
+          <!-- PageHeading -->
+          <header class="flex flex-wrap justify-between items-center gap-4">
+            <div class="flex flex-col gap-2">
+              <h1
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+              >
+                Calendario de Disponibilidad
+              </h1>
+              <p class="text-white/60 text-base font-normal leading-normal">
+                Gestiona la disponibilidad de las habitaciones, reservas y
+                estados.
+              </p>
+            </div>
+            <a
+              th:href="@{/reservas/nueva}"
+              class="flex items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-emerald-vibrant text-emerald-darkest font-bold leading-normal tracking-[0.015em] hover:bg-emerald-vibrant/90 transition-colors"
+            >
+              <span class="material-symbols-outlined">add_circle</span>
+              <span class="truncate">Nueva Reserva</span>
+            </a>
+          </header>
+          <!-- Toolbar -->
+          <div
+            class="flex flex-wrap items-center justify-between gap-4 p-2 bg-emerald/50 rounded-lg"
+          >
+            <div class="flex items-center gap-2">
+              <button
+                class="flex items-center justify-center rounded-lg h-10 px-4 bg-emerald-light text-white text-sm font-bold hover:bg-emerald-light/80 transition-colors"
+              >
+                <span class="truncate">Hoy</span>
+              </button>
+              <div class="flex gap-1">
+                <button
+                  class="p-2 text-white rounded-md hover:bg-emerald-light/80 transition-colors"
+                >
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button
+                  class="p-2 text-white rounded-md hover:bg-emerald-light/80 transition-colors"
+                >
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
+              <h2
+                class="text-lg font-bold text-white px-2"
+                th:text="${mesAnio}"
+              >
+                Noviembre 2024
+              </h2>
+            </div>
+            <div class="flex items-center gap-4">
+              <div
+                class="flex h-10 w-64 items-center justify-center rounded-lg bg-emerald p-1"
+              >
+                <label
+                  class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-[0.375rem] px-2 has-[:checked]:bg-emerald-light has-[:checked]:shadow-inner text-white/70 has-[:checked]:text-white text-sm font-medium leading-normal"
+                >
+                  <span class="truncate">Día</span>
+                  <input
+                    class="invisible w-0"
+                    name="view-switcher"
+                    type="radio"
+                    value="Día"
+                  />
+                </label>
+                <label
+                  class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-[0.375rem] px-2 has-[:checked]:bg-emerald-light has-[:checked]:shadow-inner text-white/70 has-[:checked]:text-white text-sm font-medium leading-normal"
+                >
+                  <span class="truncate">Semana</span>
+                  <input
+                    class="invisible w-0"
+                    name="view-switcher"
+                    type="radio"
+                    value="Semana"
+                  />
+                </label>
+                <label
+                  class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-[0.375rem] px-2 has-[:checked]:bg-emerald-light has-[:checked]:shadow-inner text-white/70 has-[:checked]:text-white text-sm font-medium leading-normal"
+                >
+                  <span class="truncate">Mes</span>
+                  <input
+                    checked=""
+                    class="invisible w-0"
+                    name="view-switcher"
+                    type="radio"
+                    value="Mes"
+                  />
+                </label>
+              </div>
+              <div class="flex gap-1">
+                <button
+                  class="p-2 text-white rounded-md hover:bg-emerald-light/80 transition-colors"
+                >
+                  <span class="material-symbols-outlined">filter_list</span>
+                </button>
+                <button
+                  class="p-2 text-white rounded-md hover:bg-emerald-light/80 transition-colors"
+                >
+                  <span class="material-symbols-outlined">sort</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Status Legend -->
+          <div class="flex items-center gap-6 px-2 py-1">
+            <div class="flex items-center gap-2">
+              <div
+                class="size-3 rounded-full bg-emerald-light border border-white/20"
+              ></div>
+              <span class="text-xs text-white/70">Disponible</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="size-3 rounded-full bg-gold"></div>
+              <span class="text-xs text-white/70">Ocupada</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="size-3 rounded-full bg-blue-status"></div>
+              <span class="text-xs text-white/70">Limpieza</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="size-3 rounded-full bg-red-status"></div>
+              <span class="text-xs text-white/70">Bloqueada</span>
+            </div>
+          </div>
+          <!-- Calendar Grid -->
+          <div
+            class="flex-grow overflow-x-auto overflow-y-hidden rounded-lg bg-emerald/50 p-4"
+          >
+            <div
+              class="grid min-w-max"
+              style="
+                grid-template-columns: 200px repeat(30, minmax(100px, 1fr));
+              "
+            >
+              <!-- Header Row -->
+              <div
+                class="sticky left-0 z-10 bg-emerald/50 p-2 font-bold text-white/80 text-sm"
+              >
+                Habitación
+              </div>
+              <!-- Date Headers (Dynamic with Thymeleaf) -->
+              <div
+                th:each="dia : ${diasMes}"
+                class="text-center p-2 text-sm text-white/60"
+                th:classappend="${dia.esHoy} ? 'text-gold-light font-bold' : ''"
+                th:text="${dia.nombre}"
+              >
+                Vie 01
+              </div>
+              <!-- Room Rows (Dynamic) -->
+              <th:block th:each="habitacion : ${habitaciones}">
+                <div
+                  class="sticky left-0 z-10 bg-emerald/50 p-2 border-t border-emerald-light/50"
+                >
+                  <p
+                    class="font-bold text-sm text-white"
+                    th:text="${'Habitación ' + habitacion.numero}"
+                  >
+                    101
+                  </p>
+                  <p class="text-xs text-white/60" th:text="${habitacion.tipo}">
+                    Suite
+                  </p>
+                </div>
+                <!-- Day cells for this room -->
+                <div
+                  th:each="dia : ${diasMes}"
+                  class="border-t border-emerald-light/50 h-12 transition-colors hover:bg-white/5"
+                  th:with="estado=${disponibilidad.get(habitacion.id).get(dia.fecha)}"
+                  th:classappend="${estado == 'OCUPADA'} ? 'bg-gold/80' : (${estado == 'MANTENIMIENTO'} ? 'bg-red-status/80' : (${estado == 'LIMPIEZA'} ? 'bg-blue-status/80' : ''))"
+                  th:attr="data-habitacion=${habitacion.id}, data-fecha=${dia.fecha}, title=${estado}"
+                ></div>
+              </th:block>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

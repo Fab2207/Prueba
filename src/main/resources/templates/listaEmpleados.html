@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lista de Empleados - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2bee79",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102217",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 1;
+      }
+    </style>
+  </head>
+  <body class="font-display bg-background-light dark:bg-background-dark">
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid dark:border-b-[#28392f] border-b-primary/10 px-6 md:px-10 py-3"
+        >
+          <div class="flex items-center gap-4 text-white">
+            <div class="size-6 text-primary">
+              <svg
+                fill="none"
+                viewbox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+            <h2
+              class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+            >
+              Oasis Digital
+            </h2>
+          </div>
+          <div class="flex flex-1 justify-end items-center gap-6">
+            <nav class="hidden lg:flex items-center gap-9">
+              <a
+                class="text-white/60 hover:text-white text-sm font-medium leading-normal"
+                th:href="@{/dashboard}"
+                >Dashboard</a
+              >
+              <a
+                class="text-white/60 hover:text-white text-sm font-medium leading-normal"
+                th:href="@{/reservas}"
+                >Reservas</a
+              >
+              <a
+                class="text-white/60 hover:text-white text-sm font-medium leading-normal"
+                th:href="@{/habitaciones}"
+                >Habitaciones</a
+              >
+              <a
+                class="text-white text-sm font-medium leading-normal"
+                th:href="@{/empleados/lista}"
+                >Empleados</a
+              >
+            </nav>
+            <div class="flex items-center gap-4">
+              <form th:action="@{/logout}" method="post">
+                <button
+                  type="submit"
+                  class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span class="truncate">Cerrar Sesión</span>
+                </button>
+              </form>
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                data-alt="Avatar de usuario"
+                style="background-image: url('https://i.pravatar.cc/100')"
+              ></div>
+            </div>
+          </div>
+        </header>
+        <main class="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
+          <div
+            class="layout-content-container flex flex-col w-full max-w-6xl flex-1"
+          >
+            <div class="flex flex-wrap justify-between items-center gap-4 p-4">
+              <h1
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72"
+              >
+                Lista de Empleados
+              </h1>
+            </div>
+            <div
+              class="flex flex-col md:flex-row justify-between gap-4 px-4 py-3"
+            >
+              <div class="flex-1 min-w-[280px]">
+                <label class="flex flex-col h-12 w-full">
+                  <div
+                    class="flex w-full flex-1 items-stretch rounded-lg h-full"
+                  >
+                    <div
+                      class="text-white/50 flex border-none bg-[#28392f] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                    >
+                      <span
+                        class="material-symbols-outlined"
+                        style="font-size: 24px"
+                        >search</span
+                      >
+                    </div>
+                    <input
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#28392f] h-full placeholder:text-white/50 px-4 pl-2 text-base font-normal leading-normal"
+                      placeholder="Buscar por nombre, rol o email..."
+                      value=""
+                    />
+                  </div>
+                </label>
+              </div>
+              <div class="flex gap-2">
+                <a
+                  th:href="@{/empleados/registrar}"
+                  class="flex w-full md:w-auto max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-background-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4"
+                >
+                  <span
+                    class="material-symbols-outlined text-background-dark"
+                    style="font-size: 20px"
+                    >add</span
+                  >
+                  <span class="truncate">Registrar Nuevo Empleado</span>
+                </a>
+              </div>
+            </div>
+            <div class="px-4 py-3 @container">
+              <div
+                class="flex overflow-hidden rounded-lg border border-[#3b5445] bg-[#111814]"
+              >
+                <table class="w-full text-left">
+                  <thead>
+                    <tr class="bg-[#1c2720]">
+                      <th
+                        class="px-4 py-3 text-left text-white text-sm font-medium leading-normal"
+                      >
+                        Nombre
+                      </th>
+                      <th
+                        class="px-4 py-3 text-left text-white text-sm font-medium leading-normal"
+                      >
+                        Rol
+                      </th>
+                      <th
+                        class="px-4 py-3 text-left text-white text-sm font-medium leading-normal"
+                      >
+                        Email
+                      </th>
+                      <th
+                        class="px-4 py-3 text-left text-white text-sm font-medium leading-normal"
+                      >
+                        Estado
+                      </th>
+                      <th
+                        class="px-4 py-3 text-left text-white text-sm font-medium leading-normal"
+                      >
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      th:each="empleado : ${empleados}"
+                      class="border-t border-t-[#3b5445]"
+                    >
+                      <td
+                        class="h-[72px] px-4 py-2 text-white text-sm font-normal leading-normal"
+                        th:text="${empleado.nombres + ' ' + empleado.apellidos}"
+                      >
+                        Ana García
+                      </td>
+                      <td
+                        class="h-[72px] px-4 py-2 text-white/70 text-sm font-normal leading-normal"
+                        th:text="${empleado.usuario.rol}"
+                      >
+                        Gerente
+                      </td>
+                      <td
+                        class="h-[72px] px-4 py-2 text-white/70 text-sm font-normal leading-normal"
+                        th:text="${empleado.email}"
+                      >
+                        ana.garcia@oasisdigital.com
+                      </td>
+                      <td
+                        class="h-[72px] px-4 py-2 text-sm font-normal leading-normal"
+                      >
+                        <span
+                          class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
+                          th:classappend="${empleado.activo} ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-400'"
+                          th:text="${empleado.activo ? 'Activo' : 'Inactivo'}"
+                          >Activo</span
+                        >
+                      </td>
+                      <td
+                        class="h-[72px] px-4 py-2 w-48 text-white/70 text-sm font-bold leading-normal tracking-[0.015em]"
+                      >
+                        <div class="flex items-center gap-2">
+                          <a
+                            th:href="@{/empleados/editar/{id}(id=${empleado.id})}"
+                            class="p-2 rounded-md hover:bg-white/10"
+                          >
+                            <span
+                              class="material-symbols-outlined text-white/90"
+                              style="font-size: 20px"
+                              >edit</span
+                            >
+                          </a>
+                          <a
+                            th:href="@{/empleados/ver/{id}(id=${empleado.id})}"
+                            class="p-2 rounded-md hover:bg-white/10"
+                          >
+                            <span
+                              class="material-symbols-outlined text-white/90"
+                              style="font-size: 20px"
+                              >visibility</span
+                            >
+                          </a>
+                          <button
+                            onclick="confirmarEliminacion(this)"
+                            th:data-id="${empleado.id}"
+                            class="p-2 rounded-md hover:bg-red-500/20"
+                          >
+                            <span
+                              class="material-symbols-outlined text-red-400"
+                              style="font-size: 20px"
+                              >delete</span
+                            >
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 mt-4"
+            >
+              <p class="text-sm text-white/50">
+                Mostrando 1-5 de 50 resultados
+              </p>
+              <div class="flex items-center gap-2">
+                <button
+                  class="flex items-center justify-center h-10 px-4 rounded-lg bg-[#28392f] text-white/80 hover:bg-primary/20 text-sm font-medium"
+                >
+                  Anterior
+                </button>
+                <button
+                  class="flex items-center justify-center size-10 rounded-lg bg-primary text-background-dark text-sm font-bold"
+                >
+                  1
+                </button>
+                <button
+                  class="flex items-center justify-center size-10 rounded-lg bg-[#28392f] text-white/80 hover:bg-primary/20 text-sm font-medium"
+                >
+                  2
+                </button>
+                <button
+                  class="flex items-center justify-center size-10 rounded-lg bg-[#28392f] text-white/80 hover:bg-primary/20 text-sm font-medium"
+                >
+                  3
+                </button>
+                <span class="text-white/50">...</span>
+                <button
+                  class="flex items-center justify-center size-10 rounded-lg bg-[#28392f] text-white/80 hover:bg-primary/20 text-sm font-medium"
+                >
+                  10
+                </button>
+                <button
+                  class="flex items-center justify-center h-10 px-4 rounded-lg bg-[#28392f] text-white/80 hover:bg-primary/20 text-sm font-medium"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function confirmarEliminacion(button) {
+        const empleadoId = button.getAttribute("data-id");
+        if (
+          confirm(
+            "¿Estás seguro de que deseas eliminar este empleado? Esta acción no se puede deshacer."
+          )
+        ) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = `/empleados/eliminar/${empleadoId}`;
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }
+    </script>
+  </body>
+</html>

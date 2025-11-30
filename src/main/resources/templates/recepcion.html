@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Panel Recepcionista - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B77",
+              accent: "#D4AF37",
+              "background-light": "#f6f8f7",
+              "background-dark": "#121212",
+              "surface-dark": "#1a1a1a",
+              "border-dark": "#2a2a2a",
+              "text-light": "#E0E0E0",
+              "text-dark": "#9E9E9E",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-text-light"
+  >
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <header
+          class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-background-dark/80 px-4 py-3 backdrop-blur-sm sm:px-6 md:px-8"
+        >
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-3 text-text-light">
+              <div class="size-6 text-primary">
+                <svg
+                  fill="none"
+                  viewbox="0 0 48 48"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <h2
+                class="text-text-light text-lg font-bold leading-tight tracking-[-0.015em]"
+              >
+                Oasis Digital
+              </h2>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-4 md:gap-6">
+            <label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div
+                  class="text-text-dark flex border border-border-dark bg-surface-dark items-center justify-center pl-3 rounded-l-lg border-r-0"
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    style="font-size: 20px"
+                    >search</span
+                  >
+                </div>
+                <input
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-text-light focus:outline-0 focus:ring-2 focus:ring-accent border-border-dark bg-surface-dark focus:border-accent h-full placeholder:text-text-dark px-4 pl-2 text-sm font-normal leading-normal"
+                  placeholder="Buscar reservas, huéspedes..."
+                  value=""
+                />
+              </div>
+            </label>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-surface-dark text-text-light gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 border border-border-dark hover:border-accent transition-colors"
+            >
+              <span
+                class="material-symbols-outlined text-text-dark group-hover:text-accent"
+                style="font-size: 22px"
+                >notifications</span
+              >
+            </button>
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-accent"
+                data-alt="Avatar de usuario"
+                style="background-image: url('https://i.pravatar.cc/100')"
+              ></div>
+              <div class="hidden lg:flex flex-col text-left">
+                <p
+                  class="text-sm font-semibold text-text-light"
+                  th:text="${#authentication.name}"
+                >
+                  Carlos Vega
+                </p>
+                <p class="text-xs text-text-dark">Recepcionista</p>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main class="flex-1 px-4 py-8 sm:px-6 md:px-8">
+          <div class="mx-auto flex max-w-7xl flex-col gap-8">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="flex min-w-72 flex-col gap-2">
+                <p
+                  class="text-text-light text-4xl font-black leading-tight tracking-[-0.033em]"
+                >
+                  Panel Recepcionista
+                </p>
+                <p class="text-text-dark text-base font-normal leading-normal">
+                  Resumen operativo del día.
+                </p>
+              </div>
+              <div
+                class="flex flex-1 justify-start gap-3 flex-wrap sm:justify-end"
+              >
+                <a
+                  th:href="@{/recepcion/express}"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-5 bg-primary/20 text-primary hover:bg-primary/30 transition-colors text-base font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span class="material-symbols-outlined">luggage</span>
+                  <span class="truncate">Registrar Llegada</span>
+                </a>
+                <a
+                  th:href="@{/reservas/nueva}"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-5 bg-accent text-background-dark hover:bg-amber-400 transition-colors text-base font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span class="material-symbols-outlined">add_circle</span>
+                  <span class="truncate">Nueva Reserva</span>
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div
+                class="flex flex-col gap-2 rounded-xl p-6 border border-border-dark bg-surface-dark"
+              >
+                <p class="text-text-dark text-base font-medium leading-normal">
+                  Llegadas de Hoy
+                </p>
+                <p
+                  class="text-accent tracking-light text-4xl font-bold leading-tight"
+                  th:text="${llegadasHoy}"
+                >
+                  12
+                </p>
+              </div>
+              <div
+                class="flex flex-col gap-2 rounded-xl p-6 border border-border-dark bg-surface-dark"
+              >
+                <p class="text-text-dark text-base font-medium leading-normal">
+                  Salidas de Hoy
+                </p>
+                <p
+                  class="text-accent tracking-light text-4xl font-bold leading-tight"
+                  th:text="${salidasHoy}"
+                >
+                  8
+                </p>
+              </div>
+              <div
+                class="flex flex-col gap-2 rounded-xl p-6 border border-border-dark bg-surface-dark"
+              >
+                <p class="text-text-dark text-base font-medium leading-normal">
+                  Estancias Actuales
+                </p>
+                <p
+                  class="text-text-light tracking-light text-4xl font-bold leading-tight"
+                  th:text="${estanciasActuales}"
+                >
+                  45
+                </p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+              <div class="flex flex-col gap-4 lg:col-span-2">
+                <h2
+                  class="text-text-light text-[22px] font-bold leading-tight tracking-[-0.015em]"
+                >
+                  Próximas Operaciones
+                </h2>
+                <div
+                  class="flex flex-col rounded-xl border border-border-dark bg-surface-dark overflow-hidden"
+                >
+                  <div class="flex border-b border-border-dark">
+                    <button
+                      class="flex-1 p-4 text-center font-semibold border-b-2 border-accent text-accent"
+                    >
+                      Llegadas
+                    </button>
+                    <button
+                      class="flex-1 p-4 text-center font-medium text-text-dark hover:bg-white/5 transition-colors"
+                    >
+                      Salidas
+                    </button>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                      <thead class="border-b border-border-dark">
+                        <tr>
+                          <th class="p-4 text-sm font-semibold text-text-dark">
+                            Huésped
+                          </th>
+                          <th
+                            class="p-4 text-sm font-semibold text-text-dark hidden sm:table-cell"
+                          >
+                            Habitación
+                          </th>
+                          <th
+                            class="p-4 text-sm font-semibold text-text-dark text-right"
+                          >
+                            Hora Estimada
+                          </th>
+                          <th
+                            class="p-4 text-sm font-semibold text-text-dark"
+                          ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          th:each="llegada : ${proximasLlegadas}"
+                          class="border-b border-border-dark hover:bg-white/5 transition-colors"
+                        >
+                          <td
+                            class="p-4 font-medium text-text-light"
+                            th:text="${llegada.cliente.nombres + ' ' + llegada.cliente.apellidos}"
+                          >
+                            Ana Martínez
+                          </td>
+                          <td
+                            class="p-4 text-text-dark hidden sm:table-cell"
+                            th:text="${llegada.habitacion.tipo}"
+                          >
+                            Suite Esmeralda
+                          </td>
+                          <td
+                            class="p-4 text-text-dark text-right"
+                            th:text="${#temporals.format(llegada.horaLlegada, 'HH:mm')}"
+                          >
+                            14:00
+                          </td>
+                          <td class="p-4 text-right">
+                            <button
+                              class="text-accent hover:text-amber-300 transition-colors"
+                            >
+                              <span class="material-symbols-outlined"
+                                >more_vert</span
+                              >
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4">
+                <h2
+                  class="text-text-light text-[22px] font-bold leading-tight tracking-[-0.015em]"
+                >
+                  Actividad Reciente
+                </h2>
+                <div
+                  class="flex flex-col gap-4 rounded-xl border border-border-dark bg-surface-dark p-4"
+                >
+                  <div
+                    th:each="actividad : ${actividadReciente}"
+                    class="flex items-start gap-4"
+                  >
+                    <div
+                      class="flex size-8 items-center justify-center rounded-full"
+                      th:classappend="${actividad.tipo == 'RESERVA'} ? 'bg-primary/20 text-primary' : 
+                     ${actividad.tipo == 'CHECKIN'} ? 'bg-green-500/20 text-green-400' : 
+                     'bg-red-500/20 text-red-400'"
+                    >
+                      <span
+                        class="material-symbols-outlined"
+                        style="font-size: 18px"
+                        th:text="${actividad.tipo == 'RESERVA'} ? 'book_online' : 
+                ${actividad.tipo == 'CHECKIN'} ? 'check_circle' : 'cancel'"
+                        >book_online</span
+                      >
+                    </div>
+                    <div class="flex-1">
+                      <p
+                        class="text-sm font-medium text-text-light"
+                        th:text="${actividad.titulo}"
+                      >
+                        Nueva reserva online
+                      </p>
+                      <p
+                        class="text-sm text-text-dark"
+                        th:text="${actividad.descripcion}"
+                      >
+                        Elena Gómez - Suite Esmeralda
+                      </p>
+                      <p
+                        class="text-xs text-text-dark/70"
+                        th:text="${actividad.tiempo}"
+                      >
+                        Hace 5 minutos
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-wrap items-center justify-between gap-4">
+                <h2
+                  class="text-text-light text-[22px] font-bold leading-tight tracking-[-0.015em]"
+                >
+                  Disponibilidad de Habitaciones
+                </h2>
+                <div class="flex gap-2 text-xs text-text-dark">
+                  <div class="flex items-center gap-2">
+                    <div class="size-3 rounded-full bg-green-500"></div>
+                    Disponible
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="size-3 rounded-full bg-red-500"></div>
+                    Ocupada
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="size-3 rounded-full bg-orange-500"></div>
+                    Limpieza
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="size-3 rounded-full bg-blue-500"></div>
+                    Mantenimiento
+                  </div>
+                </div>
+              </div>
+              <div
+                class="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8"
+              >
+                <div
+                  th:each="habitacion : ${habitaciones}"
+                  class="flex flex-col items-center justify-center gap-1 rounded-lg border p-4 aspect-square"
+                  th:classappend="${habitacion.estado == 'DISPONIBLE'} ? 'border-green-500/50 bg-green-500/10' :
+                     ${habitacion.estado == 'OCUPADA'} ? 'border-red-500/50 bg-red-500/10' :
+                     ${habitacion.estado == 'LIMPIEZA'} ? 'border-orange-500/50 bg-orange-500/10' :
+                     'border-blue-500/50 bg-blue-500/10'"
+                >
+                  <p
+                    class="text-sm"
+                    th:classappend="${habitacion.estado == 'DISPONIBLE'} ? 'text-green-300' :
+                   ${habitacion.estado == 'OCUPADA'} ? 'text-red-300' :
+                   ${habitacion.estado == 'LIMPIEZA'} ? 'text-orange-300' :
+                   'text-blue-300'"
+                    th:text="'Hab. ' + ${habitacion.numero}"
+                  >
+                    Hab. 101
+                  </p>
+                  <p
+                    class="font-bold text-lg text-text-light"
+                    th:text="${habitacion.numero}"
+                  >
+                    101
+                  </p>
+                  <p
+                    class="text-xs text-text-dark"
+                    th:text="${habitacion.tipo}"
+                  >
+                    Doble Deluxe
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

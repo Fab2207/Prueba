@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registrar Nuevo Servicio - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2bee79",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102217",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="relative flex min-h-screen w-full">
+      <!-- SideNavBar -->
+      <aside
+        class="flex flex-col w-64 bg-white/5 dark:bg-black/20 p-4 shrink-0"
+      >
+        <div class="flex flex-col gap-4 h-full">
+          <div class="flex items-center gap-3 py-2">
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              data-alt="Oasis Digital company logo"
+              style="background-image: url('https://i.pravatar.cc/100?img=70')"
+            ></div>
+            <div class="flex flex-col">
+              <h1 class="text-white text-base font-medium leading-normal">
+                Oasis Digital
+              </h1>
+              <p
+                class="text-gray-400 dark:text-gray-500 text-sm font-normal leading-normal"
+              >
+                Gestión Hotelera
+              </p>
+            </div>
+          </div>
+          <nav class="flex flex-col gap-2 mt-4 flex-1">
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-primary/20 hover:text-white rounded-lg"
+              th:href="@{/dashboard}"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              <p class="text-sm font-medium leading-normal">Dashboard</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-gray-300 hover:bg-primary/20 hover:text-white rounded-lg"
+              th:href="@{/reservas}"
+            >
+              <span class="material-symbols-outlined">bed</span>
+              <p class="text-sm font-medium leading-normal">Reservas</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary"
+              th:href="@{/servicios}"
+            >
+              <span
+                class="material-symbols-outlined"
+                style="font-variation-settings: 'FILL' 1"
+                >spa</span
+              >
+              <p class="text-sm font-medium leading-normal">Servicios</p>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
+        <div
+          class="layout-content-container flex w-full flex-col max-w-4xl flex-1"
+        >
+          <div class="space-y-4 px-4 mb-8">
+            <div class="flex flex-wrap items-center gap-2">
+              <a
+                class="text-primary/70 hover:text-primary transition-colors text-sm font-medium leading-normal"
+                th:href="@{/servicios}"
+                >Servicios</a
+              >
+              <span class="text-white/30 text-sm font-medium leading-normal"
+                >/</span
+              >
+              <span class="text-white text-sm font-medium leading-normal"
+                >Registrar Servicio</span
+              >
+            </div>
+            <div class="flex flex-wrap justify-between gap-3">
+              <div class="flex min-w-72 flex-col gap-2">
+                <p
+                  class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]"
+                >
+                  Registrar Nuevo Servicio
+                </p>
+                <p class="text-white/60 text-base font-normal leading-normal">
+                  Ingresa los detalles del nuevo servicio
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert Messages -->
+          <div
+            th:if="${errorMessage}"
+            class="mx-4 mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3"
+          >
+            <span class="material-symbols-outlined text-red-500">error</span>
+            <p
+              class="text-red-500 text-sm font-medium"
+              th:text="${errorMessage}"
+            >
+              Error message
+            </p>
+          </div>
+
+          <form
+            th:action="@{/servicios/guardar}"
+            th:object="${servicio}"
+            method="post"
+            class="px-4"
+          >
+            <div
+              class="flex flex-col gap-8 rounded-xl border border-white/10 bg-white/5 p-6 md:p-8"
+            >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <label class="flex flex-col">
+                  <p
+                    class="text-white text-base font-medium leading-normal pb-2"
+                  >
+                    Nombre del Servicio
+                  </p>
+                  <input
+                    th:field="*{nombre}"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/10 bg-black/20 h-14 placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
+                    placeholder="Ej. Masaje Relajante"
+                    type="text"
+                    required
+                  />
+                </label>
+                <label class="flex flex-col">
+                  <p
+                    class="text-white text-base font-medium leading-normal pb-2"
+                  >
+                    Precio ($)
+                  </p>
+                  <input
+                    th:field="*{precio}"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/10 bg-black/20 h-14 placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
+                    placeholder="0.00"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    required
+                  />
+                </label>
+              </div>
+
+              <label class="flex flex-col">
+                <p class="text-white text-base font-medium leading-normal pb-2">
+                  Descripción
+                </p>
+                <textarea
+                  th:field="*{descripcion}"
+                  class="form-textarea flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/10 bg-black/20 min-h-[120px] placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
+                  placeholder="Describe los detalles del servicio..."
+                  required
+                ></textarea>
+              </label>
+
+              <div class="flex items-center gap-4 pt-4">
+                <button
+                  type="submit"
+                  class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 flex-1 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span class="truncate">Guardar Servicio</span>
+                </button>
+                <a
+                  th:href="@{/servicios}"
+                  class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 flex-1 bg-white/10 text-white hover:bg-white/20 text-base font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span class="truncate">Cancelar</span>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

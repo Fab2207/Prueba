@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Gestión de Habitaciones - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0..200"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0bda95",
+              "background-light": "#f5f8f7",
+              "background-dark": "#10221c",
+              emerald: "#009B77",
+              gold: "#D4AF37",
+            },
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="font-display bg-background-light dark:bg-[#121212] text-white/90"
+  >
+    <div class="flex h-screen">
+      <!-- SideNavBar -->
+      <aside
+        class="flex w-64 flex-col gap-4 border-r border-white/10 bg-[#121212] p-4"
+      >
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              data-alt="Oasis Digital logo"
+              style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDc5T5_SdMoA5-csyYbqLoe7uhC07tAZYhVtyhUGMa6SBLs-SxCXAabpoJYpGNKY3dbBUsj9wjacLbRF0yHriw2oKamO_by2Dc6Snszn8Zx0L3RjRc_X8N5prccBypWO8JnlkY81UTLD0kL76ItbBONCkP-d1qH78y4TiCD3j_iIkMn3wfZ2UBuOH22U2Qxdm5kIBeBQo4J2Zb7R05MOPpmcZS8xNOts-0LszDfkdUrMTqdEqi2X0DH6bBOU-Dq2aAQY8SgOuUqk3w');
+              "
+            ></div>
+            <div class="flex flex-col">
+              <h1 class="text-white text-base font-bold">Oasis Digital</h1>
+              <p class="text-white/60 text-sm font-normal">Gestión Hotelera</p>
+            </div>
+          </div>
+          <nav class="flex flex-col gap-2">
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors"
+              th:href="@{/dashboard}"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              <p class="text-sm font-medium">Dashboard</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors"
+              th:href="@{/reservas}"
+            >
+              <span class="material-symbols-outlined">calendar_month</span>
+              <p class="text-sm font-medium">Reservas</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald/20 text-emerald"
+              th:href="@{/habitaciones}"
+            >
+              <span
+                class="material-symbols-outlined"
+                style="font-variation-settings: 'FILL' 1"
+                >bed</span
+              >
+              <p class="text-sm font-medium">Gestión de Habitaciones</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors"
+              th:href="@{/clientes}"
+            >
+              <span class="material-symbols-outlined">group</span>
+              <p class="text-sm font-medium">Clientes</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors"
+              th:href="@{/reportes}"
+            >
+              <span class="material-symbols-outlined">bar_chart</span>
+              <p class="text-sm font-medium">Reportes</p>
+            </a>
+          </nav>
+        </div>
+        <div class="mt-auto flex flex-col gap-1">
+          <a
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors"
+            th:href="@{/configuracion}"
+          >
+            <span class="material-symbols-outlined">settings</span>
+            <p class="text-sm font-medium">Configuración</p>
+          </a>
+          <form th:action="@{/logout}" method="post" class="w-full">
+            <button
+              type="submit"
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:bg-white/5 transition-colors w-full text-left"
+            >
+              <span class="material-symbols-outlined">logout</span>
+              <p class="text-sm font-medium">Salir</p>
+            </button>
+          </form>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto p-8">
+        <div class="mx-auto max-w-7xl">
+          <!-- Toast Notifications -->
+          <div
+            th:if="${successMessage}"
+            class="mb-4 p-4 rounded-lg bg-green-500/20 border border-green-500/50 text-green-400 flex items-center gap-2"
+          >
+            <span class="material-symbols-outlined">check_circle</span>
+            <span th:text="${successMessage}"></span>
+          </div>
+          <div
+            th:if="${errorMessage}"
+            class="mb-4 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 flex items-center gap-2"
+          >
+            <span class="material-symbols-outlined">error</span>
+            <span th:text="${errorMessage}"></span>
+          </div>
+
+          <!-- PageHeading -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-col gap-2">
+              <h1
+                class="text-white text-3xl font-bold leading-tight tracking-tight"
+              >
+                Gestión de Habitaciones
+              </h1>
+              <p class="text-white/60 text-base font-normal">
+                Crea, edita y gestiona el estado de las habitaciones del hotel.
+              </p>
+            </div>
+            <button
+              onclick="limpiarFormulario()"
+              class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-emerald text-white gap-2 text-sm font-bold transition-transform hover:scale-105"
+            >
+              <span class="material-symbols-outlined">add</span>
+              <span class="truncate">Añadir Nueva Habitación</span>
+            </button>
+          </div>
+          <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <!-- Left Column: Room List -->
+            <div class="flex flex-col gap-6 lg:col-span-2">
+              <!-- Search & Filters -->
+              <form
+                th:action="@{/habitaciones}"
+                method="get"
+                class="flex flex-col gap-4 md:flex-row"
+              >
+                <label class="flex-1">
+                  <div class="flex w-full items-stretch rounded-lg h-11">
+                    <div
+                      class="text-white/60 flex border-none bg-white/5 items-center justify-center pl-4 rounded-l-lg"
+                    >
+                      <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input
+                      name="search"
+                      th:value="${search}"
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-white focus:outline-0 focus:ring-2 focus:ring-emerald border-none bg-white/5 h-full placeholder:text-white/60 px-4 text-sm"
+                      placeholder="Buscar por número o tipo..."
+                    />
+                  </div>
+                </label>
+                <div class="flex gap-3">
+                  <button
+                    type="submit"
+                    class="flex h-11 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-emerald px-4 text-sm font-medium text-white hover:bg-emerald/90"
+                  >
+                    Buscar
+                  </button>
+                  <a
+                    th:href="@{/habitaciones}"
+                    class="flex h-11 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/5 px-4 text-sm font-medium text-white/80 hover:bg-white/10"
+                  >
+                    Limpiar
+                  </a>
+                </div>
+              </form>
+              <!-- Rooms Table -->
+              <div
+                class="overflow-x-auto rounded-lg border border-white/10 bg-white/5 flex flex-col"
+              >
+                <table class="w-full text-left text-sm">
+                  <thead
+                    class="border-b border-white/10 text-xs uppercase text-white/60"
+                  >
+                    <tr>
+                      <th class="px-6 py-3" scope="col">Número</th>
+                      <th class="px-6 py-3" scope="col">Tipo</th>
+                      <th class="px-6 py-3" scope="col">Estado</th>
+                      <th class="px-6 py-3 text-right" scope="col">
+                        Precio/Noche
+                      </th>
+                      <th class="px-6 py-3 text-center" scope="col">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      th:each="hab : ${habitaciones}"
+                      class="border-b border-white/10 hover:bg-white/5 transition-colors"
+                    >
+                      <td
+                        class="whitespace-nowrap px-6 py-4 font-medium text-white"
+                        th:text="${hab.numero}"
+                      >
+                        101
+                      </td>
+                      <td class="px-6 py-4" th:text="${hab.tipo}">
+                        Suite Presidencial
+                      </td>
+                      <td class="px-6 py-4">
+                        <div
+                          class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
+                          th:classappend="${hab.estado == 'DISPONIBLE' ? 'bg-green-500/20 text-green-400' : 
+                       (hab.estado == 'OCUPADA' ? 'bg-red-500/20 text-red-400' : 
+                       (hab.estado == 'MANTENIMIENTO' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'))}"
+                        >
+                          <div
+                            class="size-2 rounded-full"
+                            th:classappend="${hab.estado == 'DISPONIBLE' ? 'bg-green-400' : 
+                           (hab.estado == 'OCUPADA' ? 'bg-red-400' : 
+                           (hab.estado == 'MANTENIMIENTO' ? 'bg-yellow-400' : 'bg-blue-400'))}"
+                          ></div>
+                          <span th:text="${hab.estado}">Disponible</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 text-right"
+                        th:text="'$' + ${hab.precioPorNoche}"
+                      >
+                        $500.00
+                      </td>
+                      <td
+                        class="px-6 py-4 text-center flex justify-center items-center"
+                      >
+                        <button
+                          class="text-gold transition-colors hover:text-white mr-2"
+                          th:onclick="cargarHabitacion([[${hab.id}]], [[${hab.numero}]], [[${hab.tipo}]], [[${hab.estado}]], [[${hab.precioPorNoche}]], '')"
+                        >
+                          <span class="material-symbols-outlined text-xl"
+                            >edit</span
+                          >
+                        </button>
+                        <form
+                          th:action="@{/habitaciones/eliminar/{id}(id=${hab.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Estás seguro de eliminar esta habitación?');"
+                          style="display: inline"
+                        >
+                          <button
+                            type="submit"
+                            class="text-gold transition-colors hover:text-white"
+                          >
+                            <span class="material-symbols-outlined text-xl"
+                              >delete</span
+                            >
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(habitaciones)}">
+                      <td
+                        colspan="5"
+                        class="px-6 py-4 text-center text-white/60"
+                      >
+                        No hay habitaciones registradas.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Pagination -->
+                <div
+                  class="mt-auto p-4 border-t border-white/10 flex items-center justify-between"
+                  th:if="${totalPages > 0}"
+                >
+                  <span
+                    class="text-sm text-white/60"
+                    th:text="'Página ' + (${currentPage + 1}) + ' de ' + ${totalPages}"
+                    >Página 1 de 15</span
+                  >
+                  <div class="flex items-center gap-2">
+                    <a
+                      th:href="@{/habitaciones(page=${currentPage - 1}, search=${search})}"
+                      th:classappend="${currentPage == 0} ? 'pointer-events-none opacity-50'"
+                      class="flex items-center justify-center size-9 rounded-lg border border-white/10 bg-white/5 hover:bg-emerald/20 transition-colors text-white"
+                    >
+                      <span class="material-symbols-outlined text-lg"
+                        >chevron_left</span
+                      >
+                    </a>
+                    <a
+                      th:href="@{/habitaciones(page=${currentPage + 1}, search=${search})}"
+                      th:classappend="${currentPage + 1 >= totalPages} ? 'pointer-events-none opacity-50'"
+                      class="flex items-center justify-center size-9 rounded-lg border border-white/10 bg-white/5 hover:bg-emerald/20 transition-colors text-white"
+                    >
+                      <span class="material-symbols-outlined text-lg"
+                        >chevron_right</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Right Column: Edit Room Form -->
+            <div class="lg:col-span-1">
+              <div
+                class="sticky top-8 rounded-xl border border-white/10 bg-white/5 p-6"
+              >
+                <h2 class="text-xl font-bold text-white" id="form-title">
+                  Nueva Habitación
+                </h2>
+                <p class="mb-6 mt-1 text-sm text-white/60" id="form-subtitle">
+                  Ingresa los detalles de la nueva habitación.
+                </p>
+                <form
+                  th:action="@{/habitaciones/guardar}"
+                  method="post"
+                  th:object="${habitacion}"
+                  class="space-y-4"
+                >
+                  <input type="hidden" th:field="*{id}" id="room-id" />
+                  <div>
+                    <label
+                      class="mb-1 block text-sm font-medium text-white/80"
+                      for="room-number"
+                      >Número de Habitación</label
+                    >
+                    <input
+                      class="form-input w-full rounded-lg border-none bg-white/5 text-white placeholder:text-white/60 focus:ring-2 focus:ring-emerald"
+                      id="room-number"
+                      th:field="*{numero}"
+                      type="text"
+                      placeholder="Ej: 101"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="mb-1 block text-sm font-medium text-white/80"
+                      for="room-type"
+                      >Tipo de Habitación</label
+                    >
+                    <select
+                      class="form-select w-full rounded-lg border-none bg-white/5 text-white focus:ring-2 focus:ring-emerald"
+                      id="room-type"
+                      th:field="*{tipo}"
+                    >
+                      <option value="SIMPLE">SIMPLE</option>
+                      <option value="DOBLE">DOBLE</option>
+                      <option value="MATRIMONIAL">MATRIMONIAL</option>
+                      <option value="SUITE JUNIOR">SUITE JUNIOR</option>
+                      <option value="SUITE PRESIDENCIAL">
+                        SUITE PRESIDENCIAL
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="mb-1 block text-sm font-medium text-white/80"
+                      for="room-status"
+                      >Estado</label
+                    >
+                    <select
+                      class="form-select w-full rounded-lg border-none bg-white/5 text-white focus:ring-2 focus:ring-emerald"
+                      id="room-status"
+                      th:field="*{estado}"
+                    >
+                      <option value="DISPONIBLE">Disponible</option>
+                      <option value="OCUPADA">Ocupada</option>
+                      <option value="LIMPIEZA">Limpieza</option>
+                      <option value="MANTENIMIENTO">Mantenimiento</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="mb-1 block text-sm font-medium text-white/80"
+                      for="room-price"
+                      >Precio por Noche</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                      >
+                        <span class="text-white/60 sm:text-sm">$</span>
+                      </div>
+                      <input
+                        class="form-input block w-full rounded-lg border-none bg-white/5 pl-7 pr-3 text-white placeholder:text-white/60 focus:ring-2 focus:ring-emerald"
+                        id="room-price"
+                        th:field="*{precioPorNoche}"
+                        type="number"
+                        step="0.01"
+                        placeholder="0.00"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <!-- Descripción eliminada del formulario porque no está en la entidad Habitacion -->
+
+                  <div class="flex items-center justify-between pt-4">
+                    <button
+                      onclick="limpiarFormulario()"
+                      class="text-sm font-bold text-red-500 hover:text-red-400"
+                      type="button"
+                    >
+                      Cancelar / Limpiar
+                    </button>
+                    <div class="flex gap-3">
+                      <button
+                        class="rounded-lg bg-emerald px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald/90"
+                        type="submit"
+                      >
+                        Guardar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function cargarHabitacion(id, numero, tipo, estado, precio, descripcion) {
+        document.getElementById("room-id").value = id;
+        document.getElementById("room-number").value = numero;
+        document.getElementById("room-type").value = tipo;
+        document.getElementById("room-status").value = estado;
+        document.getElementById("room-price").value = precio;
+
+        document.getElementById("form-title").innerText =
+          "Editar Habitación " + numero;
+        document.getElementById("form-subtitle").innerText =
+          "Modifica los detalles de la habitación seleccionada.";
+
+        document
+          .getElementById("form-title")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function limpiarFormulario() {
+        document.getElementById("room-id").value = "";
+        document.getElementById("room-number").value = "";
+        document.getElementById("room-type").selectedIndex = 0;
+        document.getElementById("room-status").selectedIndex = 0;
+        document.getElementById("room-price").value = "";
+
+        document.getElementById("form-title").innerText = "Nueva Habitación";
+        document.getElementById("form-subtitle").innerText =
+          "Ingresa los detalles de la nueva habitación.";
+      }
+    </script>
+  </body>
+</html>

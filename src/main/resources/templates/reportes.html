@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Reportes Avanzados y Análisis - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13ec80",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102219",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .material-symbols-outlined.fill {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      @media print {
+        aside { display: none !important; }
+        button { display: none !important; }
+        main { padding: 0 !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="relative flex min-h-screen w-full">
+      <!-- SideNavBar -->
+      <aside class="flex h-screen flex-col bg-[#111814] p-4 w-64 sticky top-0 print:hidden">
+        <div class="flex flex-col gap-4">
+          <div class="flex gap-3 items-center">
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 flex items-center justify-center bg-[#283930]"
+              data-alt="Admin Oasis logo"
+            >
+              <span class="material-symbols-outlined text-white">person</span>
+            </div>
+            <div class="flex flex-col">
+              <h1 class="text-white text-base font-medium leading-normal">
+                Admin Oasis
+              </h1>
+              <p class="text-[#9db9ab] text-sm font-normal leading-normal">
+                Administrador
+              </p>
+            </div>
+          </div>
+          <nav class="flex flex-col gap-2">
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg"
+              th:href="@{/dashboard}"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              <p class="text-sm font-medium leading-normal">Dashboard</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg"
+              th:href="@{/reservas}"
+            >
+              <span class="material-symbols-outlined">calendar_add_on</span>
+              <p class="text-sm font-medium leading-normal">Reservas</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg"
+              th:href="@{/clientes}"
+            >
+              <span class="material-symbols-outlined">group</span>
+              <p class="text-sm font-medium leading-normal">Huéspedes</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg"
+              th:href="@{/habitaciones}"
+            >
+              <span class="material-symbols-outlined">bed</span>
+              <p class="text-sm font-medium leading-normal">Habitaciones</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary"
+              th:href="@{/reportes}"
+            >
+              <span class="material-symbols-outlined fill">bar_chart</span>
+              <p class="text-sm font-medium leading-normal">Reportes</p>
+            </a>
+          </nav>
+        </div>
+        <div class="mt-auto flex flex-col gap-1">
+          <a
+            class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg"
+            th:href="@{/configuracion}"
+          >
+            <span class="material-symbols-outlined">settings</span>
+            <p class="text-sm font-medium leading-normal">Configuración</p>
+          </a>
+          <form th:action="@{/logout}" method="post">
+            <button
+              type="submit"
+              class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-[#283930]/50 rounded-lg w-full text-left"
+            >
+              <span class="material-symbols-outlined">logout</span>
+              <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+            </button>
+          </form>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="flex-1 p-8">
+        <div class="flex flex-col gap-8">
+          <!-- PageHeading -->
+          <header class="flex flex-wrap justify-between items-center gap-4">
+            <div class="flex flex-col gap-2">
+              <p
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+              >
+                Reportes Avanzados y Análisis
+              </p>
+              <p class="text-[#9db9ab] text-base font-normal leading-normal">
+                Genere, visualice y exporte datos clave del rendimiento del
+                hotel.
+              </p>
+            </div>
+            <a
+              th:href="@{/reportes/exportar-pdf(fechaInicio=${fechaInicio}, fechaFin=${fechaFin})}"
+              target="_blank"
+              class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-xl h-12 px-6 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 print:hidden"
+            >
+              <span class="material-symbols-outlined">download</span>
+              <span class="truncate">Exportar PDF</span>
+            </a>
+          </header>
+          <div class="grid grid-cols-12 gap-8 items-start">
+            <!-- Filters Section -->
+            <aside
+              class="col-span-12 lg:col-span-4 flex flex-col gap-6 p-6 bg-[#111814] rounded-xl border border-[#3b5447]/50"
+            >
+              <form th:action="@{/reportes}" method="get" class="flex flex-col gap-6">
+              <!-- SectionHeader -->
+              <h3
+                class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+              >
+                Filtros de Reporte
+              </h3>
+              <!-- TextField / Select -->
+              <label class="flex flex-col w-full">
+                <p class="text-white text-sm font-medium leading-normal pb-2">
+                  Tipo de Reporte
+                </p>
+                <select
+                  name="tipo"
+                  class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border border-[#3b5447] bg-[#1c2721] focus:border-primary h-14 p-[15px] text-base font-normal leading-normal"
+                >
+                  <option value="financiero">Financiero</option>
+                  <option value="ocupacion">Ocupación</option>
+                  <option value="rendimiento">Rendimiento</option>
+                </select>
+              </label>
+              <!-- Date Range Selection -->
+              <div class="flex flex-col gap-4">
+                <p class="text-white text-sm font-medium leading-normal">
+                  Rango de Fechas
+                </p>
+                <div class="flex flex-col gap-2">
+                    <input type="date" name="fechaInicio" th:value="${fechaInicio}" class="bg-[#1c2721] text-white border border-[#3b5447] rounded-lg p-2" required>
+                    <input type="date" name="fechaFin" th:value="${fechaFin}" class="bg-[#1c2721] text-white border border-[#3b5447] rounded-lg p-2" required>
+                </div>
+              </div>
+              <button type="submit" class="w-full bg-primary text-background-dark font-bold py-3 rounded-xl hover:bg-primary/90 transition-colors">
+                Generar Reporte
+              </button>
+              </form>
+            </aside>                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >chevron_right</span
+                          >
+                        </button>
+                      </div>
+                      <div class="grid grid-cols-7 text-center">
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          D
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          L
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          M
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          M
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          J
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          V
+                        </p>
+                        <p
+                          class="text-white/70 text-xs font-bold h-8 flex items-center justify-center"
+                        >
+                          S
+                        </p>
+                        <!-- Calendar days -->
+                        <button
+                          class="h-8 w-full text-white/50 text-xs font-medium col-start-3"
+                        >
+                          1
+                        </button>
+                        <button
+                          class="h-8 w-full text-white/50 text-xs font-medium"
+                        >
+                          2
+                        </button>
+                        <button
+                          class="h-8 w-full text-white/50 text-xs font-medium"
+                        >
+                          3
+                        </button>
+                        <button
+                          class="h-8 w-full text-white/50 text-xs font-medium"
+                        >
+                          4
+                        </button>
+                        <button
+                          class="h-8 w-full text-background-dark text-xs font-bold rounded-l-full bg-primary"
+                        >
+                          5
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          6
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          7
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          8
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          9
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          10
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium bg-primary/30"
+                        >
+                          11
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          12
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          13
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          14
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          15
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          16
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          17
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          18
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          19
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          20
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          21
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          22
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          23
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          24
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          25
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          26
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          27
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          28
+                        </button>
+                        <button
+                          class="h-8 w-full text-white text-xs font-medium"
+                        >
+                          29
+                        </button>
+                        <button
+                          class="h-8 w-full text-background-dark text-xs font-bold rounded-r-full bg-primary"
+                        >
+                          30
+                        </button>
+                        <button
+                          class="h-8 w-full text-white/50 text-xs font-medium"
+                        >
+                          31
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90"
+              >
+                <span class="truncate">Generar Reporte</span>
+              </button>
+            </aside>
+            <!-- Chart and KPIs Section -->
+            <section class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+              <!-- KPI Cards -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div
+                  class="flex flex-col gap-2 p-4 bg-[#111814] rounded-xl border border-[#3b5447]/50"
+                >
+                  <p class="text-sm font-medium text-[#9db9ab]">
+                    Ingresos Totales
+                  </p>
+                  <p
+                    class="text-2xl font-bold text-white"
+                    th:text="'$' + ${ingresosTotales}"
+                  >
+                    $45,231.89
+                  </p>
+                  <p class="text-xs text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm"
+                      >arrow_upward</span
+                    >
+                    +2.5% vs mes anterior
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col gap-2 p-4 bg-[#111814] rounded-xl border border-[#3b5447]/50"
+                >
+                  <p class="text-sm font-medium text-[#9db9ab]">
+                    Tasa de Ocupación
+                  </p>
+                  <p
+                    class="text-2xl font-bold text-white"
+                    th:text="${tasaOcupacion + '%'}"
+                  >
+                    89.5%
+                  </p>
+                  <p class="text-xs text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm"
+                      >arrow_upward</span
+                    >
+                    +5.1% vs mes anterior
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col gap-2 p-4 bg-[#111814] rounded-xl border border-[#3b5447]/50"
+                >
+                  <p class="text-sm font-medium text-[#9db9ab]">
+                    Tarifa Diaria Prom. (ADR)
+                  </p>
+                  <p
+                    class="text-2xl font-bold text-white"
+                    th:text="'$' + ${adr}"
+                  >
+                    $175.40
+                  </p>
+                  <p class="text-xs text-red-400 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm"
+                      >arrow_downward</span
+                    >
+                    -1.2% vs mes anterior
+                  </p>
+                </div>
+              </div>
+              <!-- Main Chart -->
+              <div
+                class="flex flex-col gap-4 p-6 bg-[#111814] rounded-xl border border-[#3b5447]/50"
+              >
+                <h4 class="text-white text-lg font-bold" th:text="'Reporte de Ingresos (' + ${#temporals.format(fechaInicio, 'd MMM')} + ' - ' + ${#temporals.format(fechaFin, 'd MMM')} + ')'">
+                  Reporte de Ingresos
+                </h4>
+                <div class="w-full h-80 bg-[#1c2721] rounded-lg p-4 relative">
+                  <canvas id="mainChart"></canvas>
+                </div>
+                <script th:inline="javascript">
+                  document.addEventListener("DOMContentLoaded", function() {
+                    const fechaInicio = /*[[${fechaInicio}]]*/ null;
+                    const fechaFin = /*[[${fechaFin}]]*/ null;
+                    const tipoReporte = new URLSearchParams(window.location.search).get('tipo') || 'financiero';
+
+                    if (!fechaInicio || !fechaFin) {
+                        // If no dates selected, maybe show empty state or default to last 30 days
+                        return; 
+                    }
+
+                    const ctx = document.getElementById('mainChart').getContext('2d');
+                    let chartUrl = '/reportes/api/ingresos';
+                    let label = 'Ingresos';
+                    let borderColor = '#13ec80';
+                    let backgroundColor = 'rgba(19, 236, 128, 0.1)';
+
+                    if (tipoReporte === 'ocupacion') {
+                        chartUrl = '/reportes/api/movimiento'; // Or a specific occupancy endpoint if available
+                        label = 'Ocupación';
+                    }
+
+                    fetch(`${chartUrl}?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let labels = [];
+                            let values = [];
+
+                            if (tipoReporte === 'financiero') {
+                                labels = data.map(d => d.fecha);
+                                values = data.map(d => d.ingresos);
+                            } else if (tipoReporte === 'ocupacion' || tipoReporte === 'rendimiento') {
+                                // For movement/occupancy, we might want to show check-ins/outs or just total
+                                // This is a simplification, ideally we'd have a specific endpoint for occupancy %
+                                labels = data.map(d => d.fecha);
+                                values = data.map(d => d.checkIns + d.checkOuts); // Example metric
+                                label = 'Movimientos (Check-in + Check-out)';
+                            }
+
+                            new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: label,
+                                        data: values,
+                                        borderColor: borderColor,
+                                        backgroundColor: backgroundColor,
+                                        borderWidth: 2,
+                                        fill: true,
+                                        tension: 0.4
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { display: true, labels: { color: '#fff' } },
+                                        tooltip: {
+                                            mode: 'index',
+                                            intersect: false
+                                        }
+                                    },
+                                    scales: {
+                                        x: {
+                                            ticks: { color: '#9db9ab' },
+                                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                                        },
+                                        y: {
+                                            ticks: { color: '#9db9ab' },
+                                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        })
+                        .catch(err => console.error('Error loading chart data:', err));
+                  });
+                </script>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

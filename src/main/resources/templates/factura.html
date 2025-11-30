@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Factura - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media print {
+        .no-print {
+          display: none;
+        }
+        body {
+          background: white;
+          color: black;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 p-8 text-gray-800">
+    <div
+      class="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-lg print:shadow-none"
+    >
+      <!-- Header -->
+      <div class="flex justify-between items-center border-b pb-6 mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">FACTURA</h1>
+          <p class="text-sm text-gray-500">Oasis Digital Hotel</p>
+          <p class="text-sm text-gray-500">Av. Principal 123, Lima, Perú</p>
+          <p class="text-sm text-gray-500">RUC: 20123456789</p>
+        </div>
+        <div class="text-right">
+          <p class="font-bold">
+            Factura #: <span th:text="'F-' + ${reserva.id}">F-001</span>
+          </p>
+          <p>
+            Fecha:
+            <span
+              th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy')}"
+              >01/01/2023</span
+            >
+          </p>
+        </div>
+      </div>
+
+      <!-- Client Info -->
+      <div class="mb-8">
+        <h2 class="text-lg font-bold mb-2">Facturar a:</h2>
+        <p
+          th:text="${reserva.cliente.nombres + ' ' + reserva.cliente.apellidos}"
+        >
+          Juan Pérez
+        </p>
+        <p th:text="'DNI: ' + ${reserva.cliente.dni}">DNI: 12345678</p>
+        <p th:text="${reserva.cliente.email}">juan@example.com</p>
+      </div>
+
+      <!-- Items -->
+      <table class="w-full mb-8">
+        <thead>
+          <tr class="border-b-2 border-gray-300">
+            <th class="text-left py-2">Descripción</th>
+            <th class="text-right py-2">Cantidad</th>
+            <th class="text-right py-2">Precio Unit.</th>
+            <th class="text-right py-2">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-2">
+              <p
+                class="font-bold"
+                th:text="'Habitación ' + ${reserva.habitacion.tipo}"
+              >
+                Habitación Simple
+              </p>
+              <p
+                class="text-xs text-gray-500"
+                th:text="'Noches: ' + ${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(reserva.fechaFin, 'dd/MM/yyyy')}"
+              >
+                Fechas
+              </p>
+            </td>
+            <td
+              class="text-right py-2"
+              th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(reserva.fechaInicio, reserva.fechaFin)}"
+            >
+              3
+            </td>
+            <td
+              class="text-right py-2"
+              th:text="'$' + ${reserva.habitacion.precioPorNoche}"
+            >
+              $50.00
+            </td>
+            <td class="text-right py-2" th:text="'$' + ${reserva.totalPagar}">
+              $150.00
+            </td>
+          </tr>
+          <!-- Servicios Adicionales (Placeholder logic as services structure might vary) -->
+          <tr
+            th:each="servicio : ${reserva.servicios}"
+            class="border-b border-gray-100"
+          >
+            <td class="py-2" th:text="${servicio.nombre}">Servicio Extra</td>
+            <td class="text-right py-2">1</td>
+            <td class="text-right py-2" th:text="'$' + ${servicio.precio}">
+              $20.00
+            </td>
+            <td class="text-right py-2" th:text="'$' + ${servicio.precio}">
+              $20.00
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Totals -->
+      <div class="flex justify-end border-t pt-4">
+        <div class="w-64">
+          <div class="flex justify-between mb-2">
+            <span class="font-bold">Subtotal:</span>
+            <span th:text="'$' + ${reserva.totalPagar}">$150.00</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span>IGV (18%):</span>
+            <span
+              th:text="'$' + ${#numbers.formatDecimal(reserva.totalPagar * 0.18, 1, 2)}"
+              >$27.00</span
+            >
+          </div>
+          <div
+            class="flex justify-between border-t border-gray-300 pt-2 text-xl font-bold"
+          >
+            <span>Total:</span>
+            <span
+              th:text="'$' + ${#numbers.formatDecimal(reserva.totalPagar * 1.18, 1, 2)}"
+              >$177.00</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-12 text-center text-sm text-gray-500">
+        <p>Gracias por su preferencia.</p>
+        <p>Este documento es un comprobante de pago válido.</p>
+      </div>
+
+      <!-- Print Button -->
+      <div class="mt-8 text-center no-print">
+        <button
+          onclick="window.print()"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Imprimir / Guardar como PDF
+        </button>
+        <a
+          href="javascript:history.back()"
+          class="ml-4 text-blue-600 hover:underline"
+          >Volver</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

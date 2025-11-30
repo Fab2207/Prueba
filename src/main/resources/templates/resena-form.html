@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dejar Reseña - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B77",
+              "background-dark": "#121212",
+              "surface-dark": "#1E1E1E",
+              "text-primary-dark": "#FFFFFF",
+              "text-secondary-dark": "#B0B0B0",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background-dark text-text-primary-dark flex items-center justify-center min-h-screen p-4"
+  >
+    <div
+      class="w-full max-w-md bg-surface-dark rounded-xl p-8 border border-gray-800 shadow-2xl"
+    >
+      <h2 class="text-2xl font-bold mb-2 text-center">
+        Cuéntanos tu experiencia
+      </h2>
+      <p class="text-text-secondary-dark text-center mb-6 text-sm">
+        Tu opinión nos ayuda a mejorar.
+      </p>
+
+      <form
+        th:action="@{/resenas/guardar}"
+        method="post"
+        th:object="${resena}"
+        class="space-y-6"
+      >
+        <input type="hidden" th:field="*{reserva}" />
+        <input type="hidden" th:field="*{cliente}" />
+
+        <!-- Star Rating -->
+        <div class="flex flex-col items-center gap-2">
+          <label class="text-sm font-medium">Calificación</label>
+          <div class="flex gap-2" id="star-container">
+            <button
+              type="button"
+              onclick="setRating(1)"
+              class="text-gray-600 hover:text-yellow-400 transition-colors material-symbols-outlined text-4xl"
+            >
+              star
+            </button>
+            <button
+              type="button"
+              onclick="setRating(2)"
+              class="text-gray-600 hover:text-yellow-400 transition-colors material-symbols-outlined text-4xl"
+            >
+              star
+            </button>
+            <button
+              type="button"
+              onclick="setRating(3)"
+              class="text-gray-600 hover:text-yellow-400 transition-colors material-symbols-outlined text-4xl"
+            >
+              star
+            </button>
+            <button
+              type="button"
+              onclick="setRating(4)"
+              class="text-gray-600 hover:text-yellow-400 transition-colors material-symbols-outlined text-4xl"
+            >
+              star
+            </button>
+            <button
+              type="button"
+              onclick="setRating(5)"
+              class="text-gray-600 hover:text-yellow-400 transition-colors material-symbols-outlined text-4xl"
+            >
+              star
+            </button>
+          </div>
+          <input
+            type="hidden"
+            th:field="*{calificacion}"
+            id="rating-input"
+            required
+          />
+        </div>
+
+        <!-- Comment -->
+        <div>
+          <label for="comentario" class="block text-sm font-medium mb-2"
+            >Comentario (Opcional)</label
+          >
+          <textarea
+            th:field="*{comentario}"
+            id="comentario"
+            rows="4"
+            class="w-full bg-[#121212] border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+            placeholder="¿Qué fue lo que más te gustó?"
+          ></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 pt-2">
+          <a
+            th:href="@{/cliente/historial}"
+            class="flex-1 py-3 px-4 rounded-lg border border-gray-700 text-center text-sm font-medium hover:bg-white/5 transition-colors"
+          >
+            Cancelar
+          </a>
+          <button
+            type="submit"
+            class="flex-1 py-3 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+          >
+            Enviar Reseña
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function setRating(rating) {
+        document.getElementById("rating-input").value = rating;
+        const stars = document.getElementById("star-container").children;
+        for (let i = 0; i < stars.length; i++) {
+          if (i < rating) {
+            stars[i].classList.add("text-yellow-400", "fill-current");
+            stars[i].classList.remove("text-gray-600");
+            stars[i].style.fontVariationSettings = "'FILL' 1";
+          } else {
+            stars[i].classList.remove("text-yellow-400", "fill-current");
+            stars[i].classList.add("text-gray-600");
+            stars[i].style.fontVariationSettings = "'FILL' 0";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

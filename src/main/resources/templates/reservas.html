@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Gestión de Reservas - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B77",
+              accent: "#D4AF37",
+              "background-dark": "#1A1A1A",
+              "surface-dark": "#2C2C2C",
+              "text-main": "#E0E0E0",
+              "text-muted": "#A0A0A0",
+            },
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-background-dark font-display text-text-main">
+    <div class="relative flex h-screen w-full flex-col overflow-hidden">
+      <!-- TopNavBar -->
+      <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-dark px-6 lg:px-10 py-3 flex-shrink-0"
+      >
+        <div class="flex items-center gap-4">
+          <div class="text-primary size-7">
+            <svg
+              fill="none"
+              viewbox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <h2
+            class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+          >
+            Oasis Digital
+          </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8 items-center">
+          <a
+            th:href="@{/dashboard}"
+            class="text-text-muted hover:text-white transition-colors"
+            title="Volver al Dashboard"
+          >
+            <span class="material-symbols-outlined">dashboard</span>
+          </a>
+          <div
+            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+            data-alt="User profile picture"
+            style="
+              background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0FyNCjwBdDRPv31p1vF_rqF0_94wO8acBu-9TG7sn7HXEvStzQJWUkm6alBhomyRa_yHe7LVXMgN8nFLGITyW0awx9hIMR8uA2KINJ_cS5_PiqJToDIh0ha0z64ey5zWvwGy4sc-jFWuQc6LfsQO5KjD-oPCZmyRuCxcfVq992Beqh_hIU5CBpTvmmd5uLpIZ5MxE4xkfms5jma90754O_vKtWJvhS4CG_VmkX_NriHRooY5O_ouug-tGUuEEQGG2L3nMoMsVvhg');
+            "
+          ></div>
+        </div>
+      </header>
+      <main class="flex-1 grid grid-cols-12 gap-6 p-6 lg:p-10 overflow-auto">
+        <!-- Left Column: Filters & Actions -->
+        <div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+          <div class="flex flex-wrap justify-between gap-3">
+            <p
+              class="text-white text-4xl font-black leading-tight tracking-[-0.033em] w-full"
+            >
+              Gestión de Reservas
+            </p>
+          </div>
+          <a
+            th:href="@{/reservas/crear}"
+            class="flex items-center justify-center gap-2 w-full text-black bg-accent hover:bg-yellow-500 transition-colors px-6 py-3 rounded-lg text-base font-bold"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            Nueva Reserva
+          </a>
+          <div
+            class="bg-surface-dark p-4 rounded-xl flex-1 flex flex-col gap-6"
+          >
+            <!-- SearchBar -->
+            <form th:action="@{/reservas}" method="get" id="filterForm">
+              <div>
+                <label class="flex flex-col min-w-40 w-full">
+                  <span class="text-sm font-medium text-text-muted mb-2"
+                    >Buscar por Nombre o Nº Reserva</span
+                  >
+                  <div class="flex w-full flex-1 items-stretch rounded-lg h-12">
+                    <div
+                      class="text-text-muted flex bg-[#121212] items-center justify-center pl-4 rounded-l-lg"
+                    >
+                      <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input
+                      name="search"
+                      th:value="${search}"
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-[#121212] focus:border-none h-full placeholder:text-text-muted px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                      placeholder="Ej: John Doe, 10345"
+                    />
+                  </div>
+                </label>
+              </div>
+
+              <!-- Checklists -->
+              <div class="mt-6">
+                <span class="text-sm font-medium text-text-muted mb-2 block"
+                  >Estado de la Reserva</span
+                >
+                <div class="px-2">
+                  <label
+                    class="flex gap-x-3 py-2 flex-row items-center cursor-pointer"
+                  >
+                    <input
+                      name="estados"
+                      value="ACTIVA"
+                      th:checked="${estadosSeleccionados != null && #lists.contains(estadosSeleccionados, 'ACTIVA')}"
+                      onchange="this.form.submit()"
+                      class="h-5 w-5 rounded border-text-muted border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-text-muted focus:outline-none"
+                      type="checkbox"
+                    />
+                    <p class="text-white text-base font-normal leading-normal">
+                      Activa (Check-in)
+                    </p>
+                  </label>
+                  <label
+                    class="flex gap-x-3 py-2 flex-row items-center cursor-pointer"
+                  >
+                    <input
+                      name="estados"
+                      value="PENDIENTE"
+                      th:checked="${estadosSeleccionados != null && #lists.contains(estadosSeleccionados, 'PENDIENTE')}"
+                      onchange="this.form.submit()"
+                      class="h-5 w-5 rounded border-text-muted border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-text-muted focus:outline-none"
+                      type="checkbox"
+                    />
+                    <p class="text-white text-base font-normal leading-normal">
+                      Pendiente
+                    </p>
+                  </label>
+                  <label
+                    class="flex gap-x-3 py-2 flex-row items-center cursor-pointer"
+                  >
+                    <input
+                      name="estados"
+                      value="FINALIZADA"
+                      th:checked="${estadosSeleccionados != null && #lists.contains(estadosSeleccionados, 'FINALIZADA')}"
+                      onchange="this.form.submit()"
+                      class="h-5 w-5 rounded border-text-muted border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-text-muted focus:outline-none"
+                      type="checkbox"
+                    />
+                    <p class="text-white text-base font-normal leading-normal">
+                      Finalizada (Check-out)
+                    </p>
+                  </label>
+                  <label
+                    class="flex gap-x-3 py-2 flex-row items-center cursor-pointer"
+                  >
+                    <input
+                      name="estados"
+                      value="CANCELADA"
+                      th:checked="${estadosSeleccionados != null && #lists.contains(estadosSeleccionados, 'CANCELADA')}"
+                      onchange="this.form.submit()"
+                      class="h-5 w-5 rounded border-text-muted border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-text-muted focus:outline-none"
+                      type="checkbox"
+                    />
+                    <p class="text-white text-base font-normal leading-normal">
+                      Cancelada
+                    </p>
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Middle Column: Reservations Table -->
+        <div
+          class="col-span-12 lg:col-span-5 bg-surface-dark rounded-xl p-4 flex flex-col"
+        >
+          <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left">
+              <thead class="border-b border-gray-700">
+                <tr>
+                  <th class="p-3 text-sm font-bold text-text-muted">
+                    Nº Reserva
+                  </th>
+                  <th class="p-3 text-sm font-bold text-text-muted">Huésped</th>
+                  <th class="p-3 text-sm font-bold text-text-muted">Fechas</th>
+                  <th class="p-3 text-sm font-bold text-text-muted">Hab.</th>
+                  <th class="p-3 text-sm font-bold text-text-muted">Estado</th>
+                  <th class="p-3 text-sm font-bold text-text-muted"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  th:each="reserva : ${reservas}"
+                  th:onclick="seleccionarReserva([[${reserva.id}]], 
+                                  [[${reserva.cliente.nombres + ' ' + reserva.cliente.apellidos}]], 
+                                  [[${reserva.cliente.email}]], 
+                                  [[${reserva.cliente.telefono}]], 
+                                  [[${#temporals.format(reserva.fechaInicio, 'dd MMM yyyy')}]], 
+                                  [[${#temporals.format(reserva.fechaFin, 'dd MMM yyyy')}]], 
+                                  [[${reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}]], 
+                                  '2 Adultos', 
+                                  [[${reserva.totalPagar}]], 
+                                  [[${reserva.estadoReserva}]])"
+                  class="border-b border-gray-700 hover:bg-background-dark/50 cursor-pointer transition-colors group focus:bg-primary/20 focus:border-l-2 focus:border-primary"
+                  tabindex="0"
+                >
+                  <td class="p-3 font-medium" th:text="${reserva.id}">10345</td>
+                  <td
+                    class="p-3"
+                    th:text="${reserva.cliente.nombres + ' ' + reserva.cliente.apellidos}"
+                  >
+                    Ana Torres
+                  </td>
+                  <td class="p-3 text-sm">
+                    <span
+                      th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM')}"
+                      >05/09</span
+                    >
+                    -
+                    <span
+                      th:text="${#temporals.format(reserva.fechaFin, 'dd/MM')}"
+                      >16/09</span
+                    >
+                  </td>
+                  <td
+                    class="p-3 text-sm"
+                    th:text="${reserva.habitacion.numero}"
+                  >
+                    201
+                  </td>
+                  <td class="p-3">
+                    <span
+                      class="px-2 py-1 text-xs font-semibold rounded-full"
+                      th:classappend="${reserva.estadoReserva == 'ACTIVA' ? 'bg-blue-500/20 text-blue-300' : 
+                           (reserva.estadoReserva == 'PENDIENTE' ? 'bg-yellow-500/20 text-yellow-300' : 
+                           (reserva.estadoReserva == 'FINALIZADA' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'))}"
+                      th:text="${reserva.estadoReserva == 'ACTIVA' ? 'Check-in' : 
+                   (reserva.estadoReserva == 'PENDIENTE' ? 'Confirmada' : 
+                   (reserva.estadoReserva == 'FINALIZADA' ? 'Check-out' : 'Cancelada'))}"
+                      >Check-in</span
+                    >
+                  </td>
+                  <td class="p-3">
+                    <div
+                      class="flex gap-2 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <a
+                        th:href="@{/reservas/detalle/{id}(id=${reserva.id})}"
+                        class="hover:text-white"
+                        title="Ver Detalle Completo"
+                        ><span class="material-symbols-outlined text-xl"
+                          >visibility</span
+                        ></a
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(reservas)}">
+                  <td colspan="6" class="p-8 text-center text-text-muted">
+                    No se encontraron reservas.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Right Column: Details Panel -->
+        <div
+          class="col-span-12 lg:col-span-4 bg-surface-dark rounded-xl p-6 flex flex-col gap-6 sticky top-6 h-fit"
+          id="detailsPanel"
+          style="display: none"
+        >
+          <h3 class="text-2xl font-bold text-white">
+            Detalles de la Reserva #<span id="detId"></span>
+          </h3>
+          <div class="flex flex-col gap-4">
+            <div class="pb-4 border-b border-gray-700">
+              <h4 class="text-sm font-semibold text-text-muted mb-2">
+                Información del Huésped
+              </h4>
+              <p class="text-lg font-bold text-white" id="detNombre">
+                Ana Torres
+              </p>
+              <p class="text-text-muted" id="detEmail">ana.torres@email.com</p>
+              <p class="text-text-muted" id="detTelefono">+34 123 456 789</p>
+            </div>
+            <div class="pb-4 border-b border-gray-700">
+              <h4 class="text-sm font-semibold text-text-muted mb-2">
+                Detalles de la Estancia
+              </h4>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-text-muted text-sm">Check-in</p>
+                  <p class="font-semibold text-white" id="detCheckin">
+                    05 Sep 2024
+                  </p>
+                </div>
+                <div>
+                  <p class="text-text-muted text-sm">Check-out</p>
+                  <p class="font-semibold text-white" id="detCheckout">
+                    16 Sep 2024
+                  </p>
+                </div>
+                <div>
+                  <p class="text-text-muted text-sm">Habitación</p>
+                  <p class="font-semibold text-white" id="detHabitacion">
+                    201 - Suite Deluxe
+                  </p>
+                </div>
+                <div>
+                  <p class="text-text-muted text-sm">Ocupantes</p>
+                  <p class="font-semibold text-white" id="detOcupantes">
+                    2 Adultos
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-text-muted mb-2">
+                Resumen de Pago
+              </h4>
+              <div class="flex justify-between items-center">
+                <span class="text-text-muted">Total</span>
+                <span class="text-2xl font-bold text-white" id="detTotal"
+                  >€ 2,150.00</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="mt-auto flex flex-col gap-3" id="actionButtons">
+            <!-- Buttons will be injected via JS -->
+          </div>
+        </div>
+
+        <div
+          class="col-span-12 lg:col-span-4 bg-surface-dark rounded-xl p-6 flex flex-col gap-6 items-center justify-center text-center text-text-muted"
+          id="emptyState"
+        >
+          <span class="material-symbols-outlined text-6xl opacity-20"
+            >touch_app</span
+          >
+          <p>
+            Seleccione una reserva de la lista para ver los detalles y acciones
+            disponibles.
+          </p>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function seleccionarReserva(
+        id,
+        nombre,
+        email,
+        telefono,
+        checkin,
+        checkout,
+        habitacion,
+        ocupantes,
+        total,
+        estado
+      ) {
+        document.getElementById("emptyState").style.display = "none";
+        document.getElementById("detailsPanel").style.display = "flex";
+
+        document.getElementById("detId").innerText = id;
+        document.getElementById("detNombre").innerText = nombre;
+        document.getElementById("detEmail").innerText = email;
+        document.getElementById("detTelefono").innerText = telefono;
+        document.getElementById("detCheckin").innerText = checkin;
+        document.getElementById("detCheckout").innerText = checkout;
+        document.getElementById("detHabitacion").innerText = habitacion;
+        document.getElementById("detOcupantes").innerText = ocupantes; // Placeholder or passed data
+        document.getElementById("detTotal").innerText =
+          "S/ " + parseFloat(total).toFixed(2);
+
+        const actionsDiv = document.getElementById("actionButtons");
+        actionsDiv.innerHTML = "";
+
+        // Generate buttons based on status
+        if (estado === "ACTIVA") {
+          actionsDiv.innerHTML += `
+                <form action="/reservas/checkout/${id}" method="post" class="w-full">
+                    <button type="submit" class="flex items-center justify-center gap-2 w-full text-black bg-primary hover:bg-green-600 transition-colors px-6 py-3 rounded-lg text-base font-bold">
+                        <span class="material-symbols-outlined">logout</span> Realizar Check-out
+                    </button>
+                </form>
+                <a href="/reservas/${id}/servicios" class="flex items-center justify-center gap-2 w-full text-white bg-transparent border border-accent hover:bg-accent/10 transition-colors px-6 py-3 rounded-lg text-base font-bold text-accent">
+                    <span class="material-symbols-outlined">add</span> Añadir Servicio
+                </a>
+            `;
+        } else if (estado === "PENDIENTE") {
+          actionsDiv.innerHTML += `
+                <form action="/reservas/checkin/${id}" method="post" class="w-full">
+                    <button type="submit" class="flex items-center justify-center gap-2 w-full text-black bg-accent hover:bg-yellow-500 transition-colors px-6 py-3 rounded-lg text-base font-bold">
+                        <span class="material-symbols-outlined">login</span> Realizar Check-in
+                    </button>
+                </form>
+                <form action="/reservas/cancelar/${id}" method="post" class="w-full" onsubmit="return confirm('¿Seguro que desea cancelar esta reserva?');">
+                    <button type="submit" class="text-center w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg py-2 transition-colors">
+                        Cancelar Reserva
+                    </button>
+                </form>
+            `;
+        } else if (estado === "FINALIZADA") {
+          actionsDiv.innerHTML += `
+                <div class="w-full p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-center font-bold">
+                    Reserva Finalizada
+                </div>
+            `;
+        } else {
+          actionsDiv.innerHTML += `
+                <div class="w-full p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-center font-bold">
+                    Reserva Cancelada
+                </div>
+            `;
+        }
+      }
+    </script>
+  </body>
+</html>

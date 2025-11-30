@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Panel de Cliente - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0fbd66",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102219",
+              "accent-gold": "#CFB53B",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="flex min-h-screen w-full">
+      <!-- SideNavBar -->
+      <aside
+        class="flex h-screen flex-col justify-between bg-[#111814] p-4 w-64 fixed top-0 left-0"
+      >
+        <div class="flex flex-col gap-8">
+          <div class="flex items-center gap-3 px-3">
+            <div class="bg-primary/20 p-2 rounded-lg text-primary">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewbox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.176-5.97m5.176 5.97h3.333a3 3 0 002.824-4.008M18 8.118l2.293 2.293a1 1 0 010 1.414l-2.293 2.293m-4.586-4.586a1 1 0 011.414 0l2.293 2.293a1 1 0 010 1.414l-2.293 2.293m0-4.586l-2.293 2.293a1 1 0 000 1.414l2.293 2.293m-4.586-4.586a1 1 0 00-1.414 0l-2.293 2.293a1 1 0 000 1.414l2.293 2.293"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                ></path>
+              </svg>
+            </div>
+            <h1 class="text-white text-lg font-bold">Oasis Digital</h1>
+          </div>
+          <nav class="flex flex-col gap-2">
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary"
+              th:href="@{/cliente/area}"
+            >
+              <span class="material-symbols-outlined text-white"
+                >dashboard</span
+              >
+              <p class="text-white text-sm font-medium">Panel Principal</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              th:href="@{/cliente/historial}"
+            >
+              <span class="material-symbols-outlined text-white/80"
+                >book_online</span
+              >
+              <p class="text-white/80 text-sm font-medium">Mis Reservas</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              th:href="@{/cliente/editar}"
+            >
+              <span class="material-symbols-outlined text-white/80"
+                >person</span
+              >
+              <p class="text-white/80 text-sm font-medium">Mi Perfil</p>
+            </a>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              href="#"
+            >
+              <span class="material-symbols-outlined text-white/80">star</span>
+              <p class="text-white/80 text-sm font-medium">Dejar Reseña</p>
+            </a>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-2">
+          <form th:action="@{/logout}" method="post">
+            <button
+              type="submit"
+              class="flex w-full items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            >
+              <span class="material-symbols-outlined text-white/80"
+                >logout</span
+              >
+              <p class="text-white/80 text-sm font-medium">Cerrar Sesión</p>
+            </button>
+          </form>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="ml-64 flex-1 flex flex-col">
+        <!-- TopNavBar -->
+        <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-10 py-4 sticky top-0 bg-background-dark/80 backdrop-blur-sm z-10"
+        >
+          <div class="flex items-center gap-4 text-white"></div>
+          <div class="flex flex-1 justify-end items-center gap-4">
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-white/10 text-white/80 hover:bg-white/20 transition-colors duration-200"
+            >
+              <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                data-alt="Avatar de cliente"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRR2TUg4-QTYwkWRpusqG-YsfqLzvFqYY4-Ndd26C4Xa_YkipH9SYFW-0sEYw2e2UdYITE_8vgynDX3HIAkLEgNuxGvSlNRvB4GRwedNFE5KxnsfMHjNDbbBzMaRN2tXzgSuPbmTAXh5Z3gWC3J1ZEIBrZ_6bOKKcjrfylagzmUdxicuxrkk8acu_BxuTN3HeYLpO0dyenQBeoyjgnwbgWGb2iV9Icc4s7GieIkZVbMsKj-nHDqSkNhoZnU5ozp4GyHMOkzG2Mu-E');
+                "
+              ></div>
+              <div class="flex flex-col">
+                <p
+                  class="text-white text-sm font-medium"
+                  th:text="${cliente.nombres + ' ' + cliente.apellidos}"
+                >
+                  Alejandro Cruz
+                </p>
+                <p class="text-white/60 text-xs">Cliente</p>
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- Page Content -->
+        <div class="p-10">
+          <!-- Messages -->
+          <div
+            th:if="${successMessage}"
+            class="mb-4 p-4 rounded-lg bg-primary/20 border border-primary/50 text-primary flex items-center gap-2"
+          >
+            <span class="material-symbols-outlined">check_circle</span>
+            <span th:text="${successMessage}"></span>
+          </div>
+          <div
+            th:if="${errorMessage}"
+            class="mb-4 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 flex items-center gap-2"
+          >
+            <span class="material-symbols-outlined">error</span>
+            <span th:text="${errorMessage}"></span>
+          </div>
+
+          <!-- PageHeading -->
+          <div class="flex flex-wrap justify-between gap-3 mb-8">
+            <div class="flex min-w-72 flex-col gap-2">
+              <p
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+                th:text="'Bienvenido, ' + ${cliente.nombres}"
+              >
+                Bienvenido, Alejandro
+              </p>
+              <p class="text-white/60 text-base font-normal leading-normal">
+                Aquí tienes un resumen de tu actividad reciente.
+              </p>
+            </div>
+          </div>
+          <!-- Stats -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
+          >
+            <div
+              class="flex flex-col gap-2 rounded-xl p-6 border border-white/10 bg-[#111814]"
+            >
+              <p class="text-white/80 text-base font-medium leading-normal">
+                Próximas Reservas
+              </p>
+              <p
+                class="text-white tracking-light text-3xl font-bold leading-tight"
+                th:text="${reservasActivas}"
+              >
+                2
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2 rounded-xl p-6 border border-white/10 bg-[#111814]"
+            >
+              <p class="text-white/80 text-base font-medium leading-normal">
+                Estancias Totales
+              </p>
+              <p
+                class="text-white tracking-light text-3xl font-bold leading-tight"
+                th:text="${totalReservas}"
+              >
+                15
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2 rounded-xl p-6 border border-white/10 bg-[#111814]"
+            >
+              <p class="text-white/80 text-base font-medium leading-normal">
+                Puntos de Lealtad
+              </p>
+              <p
+                class="text-accent-gold tracking-light text-3xl font-bold leading-tight"
+              >
+                4,500
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2 rounded-xl p-6 border border-white/10 bg-[#111814]"
+            >
+              <p class="text-white/80 text-base font-medium leading-normal">
+                Reservas Finalizadas
+              </p>
+              <p
+                class="text-white tracking-light text-3xl font-bold leading-tight"
+                th:text="${reservasFinalizadas}"
+              >
+                8
+              </p>
+            </div>
+          </div>
+          <!-- Section Próximas Reservas -->
+          <div class="flex flex-col gap-6">
+            <!-- SectionHeader -->
+            <h2
+              class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]"
+            >
+              Próximas Reservas
+            </h2>
+            <!-- Booking Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div
+                th:each="reserva : ${reservas}"
+                th:if="${reserva.estadoReserva == 'ACTIVA' || reserva.estadoReserva == 'PENDIENTE'}"
+                class="flex flex-col gap-4 rounded-xl border border-white/10 bg-[#111814] p-6"
+              >
+                <div class="flex justify-between items-start">
+                  <div class="flex flex-col">
+                    <h3
+                      class="text-lg font-bold text-white"
+                      th:text="${reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}"
+                    >
+                      Habitación 101 - Suite
+                    </h3>
+                    <p
+                      class="text-sm text-white/60"
+                      th:text="${reserva.habitacion.descripcion ?: 'Oasis Digital Hotel'}"
+                    >
+                      Suite Presidencial con Vista al Mar
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs font-medium text-accent-gold bg-accent-gold/20 px-2 py-1 rounded-full"
+                    th:text="${reserva.estadoReserva}"
+                    >Confirmada</span
+                  >
+                </div>
+                <div class="border-t border-white/10 my-2"></div>
+                <div class="flex justify-between text-sm">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-white/60">Check-in</p>
+                    <p
+                      class="font-semibold text-white"
+                      th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM, yyyy')}"
+                    >
+                      15 Dic, 2024
+                    </p>
+                  </div>
+                  <div class="flex flex-col gap-1 text-right">
+                    <p class="text-white/60">Check-out</p>
+                    <p
+                      class="font-semibold text-white"
+                      th:text="${#temporals.format(reserva.fechaFin, 'dd MMM, yyyy')}"
+                    >
+                      22 Dic, 2024
+                    </p>
+                  </div>
+                </div>
+                <p
+                  class="text-xs text-white/60"
+                  th:text="'Confirmación: #' + ${reserva.id}"
+                >
+                  Confirmación: #A8B2C5D6
+                </p>
+                <button
+                  class="w-full text-center rounded-lg h-10 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors duration-200"
+                >
+                  Ver Detalles
+                </button>
+              </div>
+              <div
+                th:if="${#lists.isEmpty(reservas) || reservasActivas == 0}"
+                class="col-span-2 text-center py-8 text-white/60"
+              >
+                No tienes reservas activas en este momento.
+              </div>
+            </div>
+            <!-- Section Historial de Reservas -->
+            <h2
+              class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pt-8"
+            >
+              Historial de Reservas
+            </h2>
+            <div
+              class="overflow-x-auto bg-[#111814] rounded-xl border border-white/10"
+            >
+              <table class="w-full text-sm text-left text-white/80">
+                <thead class="text-xs text-white/60 uppercase bg-white/5">
+                  <tr>
+                    <th class="px-6 py-3" scope="col">Habitación</th>
+                    <th class="px-6 py-3" scope="col">Fechas</th>
+                    <th class="px-6 py-3" scope="col">Costo Total</th>
+                    <th class="px-6 py-3" scope="col">Estado</th>
+                    <th class="px-6 py-3" scope="col">
+                      <span class="sr-only">Acciones</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    th:each="reserva : ${reservas}"
+                    class="border-b border-white/10"
+                  >
+                    <th
+                      class="px-6 py-4 font-medium text-white whitespace-nowrap"
+                      scope="row"
+                      th:text="${reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}"
+                    >
+                      101 - Suite
+                    </th>
+                    <td
+                      class="px-6 py-4"
+                      th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM') + ' - ' + #temporals.format(reserva.fechaFin, 'dd MMM, yyyy')}"
+                    >
+                      01 Ago - 07 Ago, 2024
+                    </td>
+                    <td
+                      class="px-6 py-4"
+                      th:text="'$' + ${reserva.totalPagar} + ' USD'"
+                    >
+                      $3,250.00 USD
+                    </td>
+                    <td class="px-6 py-4" th:text="${reserva.estadoReserva}">
+                      FINALIZADA
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                      <a
+                        th:if="${reserva.estadoReserva == 'FINALIZADA'}"
+                        class="font-medium text-accent-gold hover:underline"
+                        href="#"
+                        >Escribir Reseña</a
+                      >
+                      <a
+                        th:unless="${reserva.estadoReserva == 'FINALIZADA'}"
+                        class="font-medium text-white/60 hover:underline"
+                        href="#"
+                        >Ver Detalles</a
+                      >
+                    </td>
+                  </tr>
+                  <tr th:if="${#lists.isEmpty(reservas)}">
+                    <td colspan="5" class="px-6 py-8 text-center text-white/60">
+                      No tienes reservas registradas.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Monitoreo del Sistema - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B77",
+              accent: "#D4AF37",
+              danger: "#D22B2B",
+              "background-light": "#f6f8f7",
+              "background-dark": "#121212",
+              "surface-dark": "#1E1E1E",
+              "text-light": "#EAEAEA",
+              "text-dark": "#9E9E9E",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              mono: ["Fira Code", "monospace"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-background-dark font-display text-text-light">
+    <div class="relative flex min-h-screen w-full flex-row">
+      <!-- SideNavBar -->
+      <aside class="flex w-64 flex-col bg-black p-4">
+        <div class="flex h-full flex-col justify-between">
+          <div class="flex flex-col gap-6">
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                data-alt="Oasis Digital logo"
+                style="
+                  background-image: url('https://i.pravatar.cc/100?img=70');
+                "
+              ></div>
+              <div class="flex flex-col">
+                <h1 class="text-text-light text-base font-bold leading-normal">
+                  Oasis Digital
+                </h1>
+                <p class="text-text-dark text-sm font-normal leading-normal">
+                  Gestión Hotelera
+                </p>
+              </div>
+            </div>
+            <nav class="flex flex-col gap-2">
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors"
+                th:href="@{/dashboard}"
+              >
+                <span class="material-symbols-outlined">dashboard</span>
+                <p class="text-sm font-medium leading-normal">Dashboard</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors"
+                th:href="@{/reservas}"
+              >
+                <span class="material-symbols-outlined">calendar_add_on</span>
+                <p class="text-sm font-medium leading-normal">Reservas</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors"
+                th:href="@{/clientes}"
+              >
+                <span class="material-symbols-outlined">group</span>
+                <p class="text-sm font-medium leading-normal">Huéspedes</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors"
+                th:href="@{/habitaciones}"
+              >
+                <span class="material-symbols-outlined">bed</span>
+                <p class="text-sm font-medium leading-normal">Habitaciones</p>
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary"
+                th:href="@{/monitoreo}"
+              >
+                <span
+                  class="material-symbols-outlined"
+                  style="font-variation-settings: 'FILL' 1"
+                  >terminal</span
+                >
+                <p class="text-sm font-medium leading-normal">Monitoreo</p>
+              </a>
+            </nav>
+          </div>
+          <div class="flex flex-col gap-1">
+            <a
+              class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors"
+              th:href="@{/configuracion}"
+            >
+              <span class="material-symbols-outlined">settings</span>
+              <p class="text-sm font-medium leading-normal">Ajustes</p>
+            </a>
+            <form th:action="@{/logout}" method="post">
+              <button
+                type="submit"
+                class="flex items-center gap-3 px-3 py-2 text-text-dark hover:bg-surface-dark hover:text-text-light rounded-lg transition-colors w-full text-left"
+              >
+                <span class="material-symbols-outlined">logout</span>
+                <p class="text-sm font-medium leading-normal">Salir</p>
+              </button>
+            </form>
+          </div>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <main class="flex-1 flex flex-col p-8">
+        <div class="flex flex-col h-full w-full max-w-7xl mx-auto">
+          <!-- PageHeading & ToolBar -->
+          <header class="flex flex-wrap justify-between items-start gap-4 mb-6">
+            <div class="flex flex-col gap-2">
+              <h1
+                class="text-text-light text-4xl font-black leading-tight tracking-[-0.033em]"
+              >
+                Monitoreo del Sistema
+              </h1>
+              <div class="flex items-center gap-2">
+                <div class="relative flex h-3 w-3">
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
+                  ></span>
+                  <span
+                    class="relative inline-flex rounded-full h-3 w-3 bg-primary"
+                  ></span>
+                </div>
+                <p class="text-primary text-base font-medium leading-normal">
+                  Conectado
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-2 items-center">
+              <button
+                aria-label="Pausar monitoreo en vivo"
+                class="p-2.5 text-text-dark hover:text-accent rounded-lg hover:bg-surface-dark transition-colors"
+              >
+                <span class="material-symbols-outlined">pause_circle</span>
+              </button>
+              <button
+                aria-label="Reanudar monitoreo"
+                class="p-2.5 text-text-dark hover:text-primary rounded-lg hover:bg-surface-dark transition-colors"
+              >
+                <span class="material-symbols-outlined">play_circle</span>
+              </button>
+            </div>
+          </header>
+          <!-- Filter & Search Bar -->
+          <form
+            th:action="@{/monitoreo}"
+            method="get"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"
+          >
+            <!-- SearchBar -->
+            <div class="lg:col-span-2">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div
+                  class="text-text-dark flex border-none bg-surface-dark items-center justify-center pl-4 rounded-l-lg border-r-0"
+                >
+                  <span class="material-symbols-outlined">search</span>
+                </div>
+                <input
+                  name="query"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light focus:outline-0 focus:ring-2 focus:ring-accent border-none bg-surface-dark h-full placeholder:text-text-dark px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  placeholder="Buscar en logs..."
+                  th:value="${query}"
+                />
+              </div>
+            </div>
+            <!-- Level Filter Dropdown -->
+            <div>
+              <select
+                name="nivel"
+                onchange="this.form.submit()"
+                class="form-select w-full h-12 rounded-lg bg-surface-dark text-text-light border-none focus:ring-2 focus:ring-accent"
+              >
+                <option value="" th:selected="${nivel == null || nivel == ''}">
+                  Todos los niveles
+                </option>
+                <option value="Info" th:selected="${nivel == 'Info'}">
+                  Info (Creación)
+                </option>
+                <option
+                  value="Advertencia"
+                  th:selected="${nivel == 'Advertencia'}"
+                >
+                  Advertencia (Actualización)
+                </option>
+                <option value="Error" th:selected="${nivel == 'Error'}">
+                  Error
+                </option>
+                <option value="Crítico" th:selected="${nivel == 'Crítico'}">
+                  Crítico (Eliminación)
+                </option>
+              </select>
+            </div>
+            <!-- Date Range Selector -->
+            <div>
+              <input
+                name="fecha"
+                onchange="this.form.submit()"
+                th:value="${fecha}"
+                class="form-input w-full h-12 rounded-lg bg-surface-dark text-text-light border-none focus:ring-2 focus:ring-accent"
+                type="date"
+              />
+            </div>
+            <button type="submit" class="hidden">Buscar</button>
+          </form>
+          <!-- Chips & Clear Button -->
+          <div class="flex justify-between items-center gap-4 mb-6">
+            <div class="flex gap-3 overflow-x-auto pb-2">
+              <a
+                th:href="@{/monitoreo}"
+                class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full pl-4 pr-4 transition-colors"
+                th:classappend="${nivel == null || nivel == ''} ? 'bg-primary/20 text-primary' : 'bg-surface-dark text-text-dark hover:bg-primary/20 hover:text-primary'"
+              >
+                <p class="text-sm font-medium leading-normal">Todos</p>
+              </a>
+              <a
+                th:href="@{/monitoreo(nivel='Info')}"
+                class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full pl-4 pr-4 transition-colors"
+                th:classappend="${nivel == 'Info'} ? 'bg-primary/20 text-primary' : 'bg-surface-dark text-text-dark hover:bg-primary/20 hover:text-primary'"
+              >
+                <p class="text-sm font-medium leading-normal">Info</p>
+              </a>
+              <a
+                th:href="@{/monitoreo(nivel='Advertencia')}"
+                class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full pl-4 pr-4 transition-colors"
+                th:classappend="${nivel == 'Advertencia'} ? 'bg-accent/20 text-accent' : 'bg-surface-dark text-text-dark hover:bg-accent/20 hover:text-accent'"
+              >
+                <p class="text-sm font-medium leading-normal">Advertencia</p>
+              </a>
+              <a
+                th:href="@{/monitoreo(nivel='Error')}"
+                class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full pl-4 pr-4 transition-colors"
+                th:classappend="${nivel == 'Error'} ? 'bg-danger/20 text-danger' : 'bg-surface-dark text-text-dark hover:bg-danger/20 hover:text-danger'"
+              >
+                <p class="text-sm font-medium leading-normal">Error</p>
+              </a>
+            </div>
+            <a
+              th:href="@{/monitoreo}"
+              class="flex items-center gap-2 text-text-dark hover:text-text-light transition-colors"
+            >
+              <span class="material-symbols-outlined">close</span>
+              <span class="text-sm font-medium">Limpiar Filtros</span>
+            </a>
+          </div>
+          <!-- Log Panel -->
+          <div
+            class="flex-1 bg-black rounded-xl p-6 overflow-y-auto font-mono text-sm"
+          >
+            <div class="flex flex-col gap-2">
+              <div
+                th:each="log : ${logs}"
+                class="flex items-start gap-3 hover:bg-surface-dark p-2 rounded-md transition-colors cursor-pointer"
+                th:classappend="${#strings.contains(log.tipoAccion, 'ERROR') or #strings.contains(log.tipoAccion, 'ELIMINACION')} ? 'bg-danger/10 border-l-2 border-danger' : 
+                     (${#strings.contains(log.tipoAccion, 'CANCELACION')} ? 'bg-danger/20 border-l-2 border-danger font-bold' : '')"
+              >
+                <span
+                  class="text-text-dark"
+                  th:text="${#temporals.format(log.timestamp, 'yyyy-MM-dd HH:mm:ss')}"
+                  >2023-10-27 10:00:01</span
+                >
+                <span
+                  class="font-bold"
+                  th:classappend="${#strings.contains(log.tipoAccion, 'CREACION') or #strings.contains(log.tipoAccion, 'REGISTRO')} ? 'text-primary' : 
+                      (${#strings.contains(log.tipoAccion, 'ACTUALIZACION') or #strings.contains(log.tipoAccion, 'MODIFICACION')} ? 'text-accent' : 
+                      'text-text-light')"
+                  th:text="'[' + ${log.tipoAccion} + ']'"
+                  >[INFO]</span
+                >
+                <p
+                  class="flex-1 text-text-light"
+                  th:text="${log.detalleAccion}"
+                >
+                  Servicio de autenticación iniciado correctamente.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

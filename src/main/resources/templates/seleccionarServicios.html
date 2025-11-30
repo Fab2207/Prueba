@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="dark" lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Seleccionar Servicios Adicionales - Oasis Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13ec80",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102219",
+              emerald: {
+                DEFAULT: "#005B41",
+                light: "#007552",
+                dark: "#004430",
+              },
+              gold: {
+                DEFAULT: "#D4AF37",
+                light: "#EAC65E",
+                dark: "#B8982D",
+              },
+              "brand-dark": "#121212",
+              "brand-light": "#1E1E1E",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-brand-dark font-display text-gray-200">
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col dark group/design-root overflow-x-hidden"
+    >
+      <!-- TopNavBar -->
+      <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-gold/20 bg-brand-dark/80 px-4 py-3 backdrop-blur-sm sm:px-6 md:px-10 lg:px-20"
+      >
+        <div class="flex items-center gap-4 text-white">
+          <div class="size-6 text-emerald-DEFAULT">
+            <svg
+              fill="none"
+              viewbox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <h2
+            class="text-white text-lg font-bold leading-tight tracking-[-0.015em]"
+          >
+            Oasis Digital
+          </h2>
+        </div>
+        <div class="flex gap-2">
+          <button
+            class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-brand-light hover:bg-gold/20 text-gold gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-colors"
+          >
+            <span class="material-symbols-outlined text-gold text-[20px]"
+              >account_circle</span
+            >
+          </button>
+          <button
+            class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-brand-light hover:bg-gold/20 text-gold gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-colors"
+          >
+            <span class="material-symbols-outlined text-gold text-[20px]"
+              >settings</span
+            >
+          </button>
+        </div>
+      </header>
+      <main class="layout-container flex h-full grow flex-col">
+        <div class="flex flex-1 flex-col lg:flex-row">
+          <!-- Main Content -->
+          <div class="flex flex-1 flex-col px-4 py-5 sm:px-6 md:px-10 lg:px-20">
+            <!-- PageHeading -->
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p
+                  class="text-white text-4xl font-black leading-tight tracking-[-0.033em]"
+                >
+                  Seleccionar Servicios Adicionales
+                </p>
+                <p class="text-gray-400 text-base font-normal leading-normal">
+                  Mejore su estancia con nuestros servicios exclusivos.
+                </p>
+              </div>
+            </div>
+            <!-- SectionHeader -->
+            <h2
+              class="text-gold text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+            >
+              Servicios Disponibles
+            </h2>
+            <!-- ImageGrid -->
+            <form
+              th:action="@{/reservas/{id}/servicios(id=${reserva.id})}"
+              method="post"
+              id="serviciosForm"
+            >
+              <input type="hidden" name="returnTo" th:value="${returnTo}" />
+              <div
+                class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4 p-4"
+              >
+                <!-- Service Cards (Thymeleaf loop) -->
+                <div
+                  th:each="servicio : ${serviciosDisponibles}"
+                  class="flex flex-col gap-3 rounded-xl bg-brand-light p-3 transition-shadow hover:shadow-lg hover:shadow-emerald-dark/20"
+                >
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
+                    style="
+                      background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400');
+                    "
+                  ></div>
+                  <div class="flex-grow">
+                    <p
+                      class="text-white text-base font-bold leading-normal"
+                      th:text="${servicio.nombre}"
+                    >
+                      Servicio
+                    </p>
+                    <p
+                      class="text-gray-400 text-sm font-normal leading-normal"
+                      th:text="${servicio.descripcion}"
+                    >
+                      Descripción
+                    </p>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <p
+                      class="text-gold text-lg font-bold leading-normal"
+                      th:text="'S/. ' + ${servicio.precio}"
+                    >
+                      S/. 120.00
+                    </p>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="servicioIds"
+                        th:value="${servicio.id}"
+                        th:checked="${serviciosSeleccionados.contains(servicio.id)}"
+                        th:data-nombre="${servicio.nombre}"
+                        th:data-precio="${servicio.precio}"
+                        onchange="actualizarResumen()"
+                        class="h-5 w-5 rounded border-emerald-DEFAULT text-emerald-DEFAULT focus:ring-emerald-DEFAULT"
+                      />
+                      <span class="text-sm font-medium text-white">Añadir</span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  th:if="${#lists.isEmpty(serviciosDisponibles)}"
+                  class="col-span-full text-center py-8 text-gray-400"
+                >
+                  No hay servicios disponibles en este momento.
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- Booking Summary Panel -->
+          <aside
+            class="w-full border-l border-gold/20 bg-brand-light lg:sticky lg:top-[65px] lg:h-[calc(100vh-65px)] lg:w-[380px] lg:min-w-[380px]"
+          >
+            <div class="flex h-full flex-col p-6">
+              <h3 class="text-2xl font-bold text-gold">
+                Resumen de su Reserva
+              </h3>
+              <div class="mt-6 flex-grow space-y-4 overflow-y-auto">
+                <!-- Selected Items -->
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-grow">
+                    <p
+                      class="font-bold text-white"
+                      th:text="${reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}"
+                    >
+                      Habitación Deluxe
+                    </p>
+                    <p
+                      class="text-sm text-gray-400"
+                      th:text="${reserva.diasEstadia + ' noches'}"
+                    >
+                      2 noches
+                    </p>
+                  </div>
+                  <p
+                    class="whitespace-nowrap font-semibold text-white"
+                    th:text="'S/. ' + ${reserva.totalPagar}"
+                  >
+                    S/. 540.00
+                  </p>
+                </div>
+                <div id="serviciosSeleccionadosList" class="space-y-3">
+                  <!-- Los servicios seleccionados se añadirán aquí via JavaScript -->
+                </div>
+              </div>
+              <div class="mt-6 border-t border-gold/20 pt-6">
+                <div class="space-y-2">
+                  <div class="flex justify-between text-gray-300">
+                    <span>Subtotal Habitación</span>
+                    <span th:text="'S/. ' + ${reserva.totalPagar}"
+                      >S/. 540.00</span
+                    >
+                  </div>
+                  <div class="flex justify-between text-gray-300">
+                    <span>Subtotal Servicios</span>
+                    <span id="subtotalServicios">S/. 0.00</span>
+                  </div>
+                  <div
+                    class="flex justify-between text-2xl font-black text-white"
+                  >
+                    <span class="text-gold">Total</span>
+                    <span
+                      id="totalFinal"
+                      th:text="'S/. ' + ${reserva.totalPagar}"
+                      >S/. 615.00</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-6 flex flex-col gap-3">
+                  <button
+                    type="submit"
+                    form="serviciosForm"
+                    class="flex h-12 w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-emerald-DEFAULT text-base font-bold text-white transition-colors hover:bg-emerald-light"
+                  >
+                    Continuar al Pago
+                  </button>
+                  <a
+                    th:href="@{/reservas}"
+                    class="flex h-12 w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-2 border-gold/50 bg-transparent text-base font-bold text-gold transition-colors hover:bg-gold/10"
+                  >
+                    Volver a Reservas
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script th:inline="javascript">
+      // Datos de la reserva desde Thymeleaf
+      const montoBase = /*[[${reserva.totalPagar}]]*/ 540;
+
+      function actualizarResumen() {
+        const checkboxes = document.querySelectorAll(
+          'input[name="servicioIds"]:checked'
+        );
+        const listaDiv = document.getElementById("serviciosSeleccionadosList");
+        const subtotalSpan = document.getElementById("subtotalServicios");
+        const totalSpan = document.getElementById("totalFinal");
+
+        listaDiv.innerHTML = "";
+        let totalServicios = 0;
+
+        checkboxes.forEach((checkbox) => {
+          const nombre = checkbox.getAttribute("data-nombre");
+          const precio = parseFloat(checkbox.getAttribute("data-precio"));
+          totalServicios += precio;
+
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "flex items-start justify-between gap-4 text-sm";
+          itemDiv.innerHTML = `
+            <div class="flex-grow">
+              <p class="font-medium text-white">${nombre}</p>
+            </div>
+            <p class="whitespace-nowrap text-white">S/. ${precio.toFixed(2)}</p>
+          `;
+          listaDiv.appendChild(itemDiv);
+        });
+
+        subtotalSpan.textContent = "S/. " + totalServicios.toFixed(2);
+        totalSpan.textContent =
+          "S/. " + (montoBase + totalServicios).toFixed(2);
+      }
+
+      // Actualizar al cargar la página
+      document.addEventListener("DOMContentLoaded", actualizarResumen);
+    </script>
+  </body>
+</html>
